@@ -41,8 +41,16 @@ class Dsr extends CI_Controller
         $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
         $this->load->view('dsr/cimb', $data);
     }
+    public function tambah_cimb()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_cimb', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
     public function add_cimb()
     {
+        $code = $this->session->userdata('code');
+
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -54,9 +62,9 @@ class Dsr extends CI_Controller
         $this->form_validation->set_rules('alamat_toko', 'Alamat Toko', 'required|trim');
 
         if ($this->form_validation->run() === FALSE) {
-            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+            $this->session->set_flashdata('error', validation_errors());
+            redirect('dsr/cimb');
         } else {
-            $code = $this->session->userdata('code');
 
             // Ambil detail user
             $supervisors = $this->Dsr_model->get_supervisors($code);
@@ -88,7 +96,12 @@ class Dsr extends CI_Controller
 
             // Add CIMB data
             $result = $this->Dsr_model->add_cimb($code, $fileNames, $supervisors);
-            echo json_encode($result);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/cimb');
         }
     }
     public function delete_cimb($id)
@@ -105,8 +118,16 @@ class Dsr extends CI_Controller
         $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
         $this->load->view('dsr/bsi', $data);
     }
+    public function tambah_bsi()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_bsi', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
     public function add_bsi()
     {
+        $code = $this->session->userdata('code');
+
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -149,7 +170,12 @@ class Dsr extends CI_Controller
 
             // Add BSI data
             $result = $this->Dsr_model->add_bsi($code, $fileNames, $supervisors);
-            echo json_encode($result);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/bsi');
         }
     }
     public function delete_bsi($id)
@@ -166,8 +192,16 @@ class Dsr extends CI_Controller
         $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
         $this->load->view('dsr/uob', $data);
     }
+    public function tambah_uob()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_uob', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
     public function add_uob()
     {
+        $code = $this->session->userdata('code');
+
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -183,22 +217,39 @@ class Dsr extends CI_Controller
             // Ambil detail user
             $supervisors = $this->Dsr_model->get_supervisors($code);
 
-            // Handle file upload
+            // Names of input field
+            $files = ['foto_ktp_nasabah'];
+            $fileNames = [];
+
+            // Configure upload.
             $config['upload_path'] = './uploads/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png';
             $config['max_size'] = 5000;
             $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('foto_ktp_nasabah')) {
-                $error = $this->upload->display_errors();
-                $this->session->set_flashdata('error', $error);
-                redirect('dsr/uob');
+
+            // Loop through each file
+            foreach ($files as $file) {
+                if (!$this->upload->do_upload($file)) {
+                    // Handle error
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect('dsr/uob');
+                } else {
+                    // Save the file name
+                    $uploadData = $this->upload->data();
+                    $fileNames[$file] = $uploadData['file_name'];
+                    // error_log('File Names: ' . print_r($fileNames, true));
+                }
             }
-            $uploadData = $this->upload->data();
-            $fileName = $uploadData['file_name'];
 
             // Add UOB data
-            $result = $this->Dsr_model->add_uob($code, $fileName, $supervisors);
-            echo json_encode($result);
+            $result = $this->Dsr_model->add_uob($code, $fileNames, $supervisors);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/uob');
         }
     }
     public function delete_uob($id)
@@ -215,8 +266,16 @@ class Dsr extends CI_Controller
         $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
         $this->load->view('dsr/line', $data);
     }
+    public function tambah_line()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_line', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
     public function add_line()
     {
+        $code = $this->session->userdata('code');
+
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -259,7 +318,12 @@ class Dsr extends CI_Controller
 
             // Add LINE data
             $result = $this->Dsr_model->add_line($code, $fileNames, $supervisors);
-            echo json_encode($result);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/line');
         }
     }
     public function delete_line($id)
@@ -276,8 +340,16 @@ class Dsr extends CI_Controller
         $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
         $this->load->view('dsr/bpd', $data);
     }
+    public function tambah_bpd()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_bpd', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
     public function add_bpd()
     {
+        $code = $this->session->userdata('code');
+
         $this->load->helper('form');
         $this->load->library('form_validation');
 
@@ -323,7 +395,12 @@ class Dsr extends CI_Controller
 
             // Add bpd data
             $result = $this->Dsr_model->add_bpd($code, $fileNames, $supervisors);
-            echo json_encode($result);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/bpd');
         }
     }
     public function delete_bpd($id)

@@ -7,6 +7,7 @@
 	<title>Login Page</title>
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<style>
 		body {
 			overflow: hidden;
@@ -49,15 +50,19 @@
 					<form action="<?php echo site_url('user/login'); ?>" method="post" style="width: 100%; max-width: 23rem;">
 						<h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
 						<div class="form-outline mb-4">
+							<label class="form-label" for="code">Mitracode</label>
 							<input type="text" id="code" name="code" class="form-control form-control-lg" required />
-							<label class="form-label" for="code">Code</label>
 						</div>
 						<div class="form-outline mb-4">
-							<input type="password" id="password" name="password" class="form-control form-control-lg" required />
 							<label class="form-label" for="password">Password</label>
+							<input type="password" id="password" name="password" class="form-control form-control-lg" required />
+							<div class="mt-2">
+								<i class="fas fa-info-circle text-primary"></i>
+								<small class="text-muted">Password Anda berisi <strong class="text-dark">8 digit</strong>: Tanggal, Bulan, Tahun lahir Anda. <span class="text-warning">Contoh: 23052000</span></small>
+							</div>
 						</div>
-						<div class="pt-1 mb-4">
-							<button type="submit" class="btn btn-warning btn-lg btn-block">Login</button>
+						<div class="pt-1 mb-4 d-flex justify-content-end">
+							<button type="submit" class="btn btn-warning btn-lg">Masuk</button>
 						</div>
 					</form>
 

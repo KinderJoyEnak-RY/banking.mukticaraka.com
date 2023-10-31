@@ -214,7 +214,7 @@ class Dsr_model extends CI_Model
             'kota' => $kota,
             'provinsi' => $this->input->post('provinsi_name'),
             'kabupaten' => $this->input->post('kabupaten_name'),
-            'foto_ktp_nasabah' => $fileName,
+            'foto_ktp_nasabah' => $fileName['foto_ktp_nasabah'],
             'spv' => $supervisors['spv'],
             'koor' => $supervisors['koor'],
             'asm' => $supervisors['asm']

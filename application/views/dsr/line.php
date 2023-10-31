@@ -153,10 +153,21 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addLineModal">Add LINE Data</a>
+                            <a href="<?php echo site_url('dsr/tambah_line'); ?>" class="btn btn-primary mb-3">Add LINE Data</a>
                             <div id="notification" class="alert" style="display:none;">
                                 <span id="notification-message"></span>
                             </div>
+                            <?php if ($this->session->flashdata('error')) : ?>
+                                <div class="alert alert-danger">
+                                    <?= $this->session->flashdata('error'); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->session->flashdata('success')) : ?>
+                                <div class="alert alert-success">
+                                    <?= $this->session->flashdata('success'); ?>
+                                </div>
+                            <?php endif; ?>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
@@ -223,91 +234,6 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="addLineModal" tabindex="-1" aria-labelledby="addLineModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addLineModalLabel">Add LINE Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="card">
-                            <div class="card-body">
-                                <?php echo form_open_multipart('dsr/add_line', array('id' => 'lineForm')); ?>
-                                <!-- Your form fields go here. For example: -->
-                                <div class="form-group">
-                                    <label for="dsr_code">Mitra Code:</label>
-                                    <input type="text" class="form-control" name="dsr_code" id="dsr_code" value="<?php echo $this->session->userdata('code'); ?>" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dsr_name">DSR:</label>
-                                    <input type="text" class="form-control" name="dsr_name" id="dsr_name" value="<?php echo $this->session->userdata('name'); ?>" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="nama_nasabah">Nama Nasabah:</label>
-                                    <input type="text" class="form-control" name="nama_nasabah" id="nama_nasabah" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_hp_nasabah">No HP Nasabah:</label>
-                                    <input type="text" class="form-control" name="no_hp_nasabah" id="no_hp_nasabah" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_rek_line_nasabah">No Rek Line Nasabah:</label>
-                                    <input type="text" class="form-control" name="no_rek_line_nasabah" id="no_rek_line_nasabah" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kota">Provinsi/Kota Akuisisi:</label>
-                                    <input type="text" class="form-control" name="kota" id="kota" placeholder="Pilih provinsi dan kabupaten" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="provinsi">Provinsi:</label>
-                                    <select class="form-control" name="provinsi" id="provinsi">
-                                        <!-- Isi dari API -->
-                                    </select>
-                                    <input type="hidden" name="provinsi_name" id="provinsi_name">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="kabupaten">Kabupaten/Kota:</label>
-                                    <select class="form-control" name="kabupaten" id="kabupaten">
-                                        <!-- Isi dari API setelah provinsi dipilih -->
-                                    </select>
-                                    <input type="hidden" name="kabupaten_name" id="kabupaten_name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="ss_detail_dashboard">SS Detail Dashboard:</label>
-                                    <input type="file" class="form-control" name="ss_detail_dashboard" id="ss_detail_dashboard" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="foto_ktp_nasabah">Foto KTP Nasabah:</label>
-                                    <input type="file" class="form-control" name="foto_ktp_nasabah" id="foto_ktp_nasabah" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="spv">SPV:</label>
-                                    <input type="text" class="form-control" name="spv" id="spv" value="<?php echo $supervisors['spv']; ?>" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="koor">KOOR:</label>
-                                    <input type="text" class="form-control" name="koor" id="koor" value="<?php echo $supervisors['koor']; ?>" readonly required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="asm">ASM:</label>
-                                    <input type="text" class="form-control" name="asm" id="asm" value="<?php echo $supervisors['asm']; ?>" readonly required>
-                                </div>
-                                <?php echo form_close(); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="submitBtn">Add LINE Data</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -324,7 +250,6 @@
             </div>
         </div>
 
-
     </div>
     <!-- ./wrapper -->
 
@@ -333,77 +258,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
     <script>
-        $("#submitBtn").click(function(e) {
-            e.preventDefault();
-            var formData = new FormData($('#lineForm')[0]);
-            $.ajax({
-                url: "<?php echo site_url('dsr/add_line'); ?>",
-                type: "post",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    var jsonResponse = JSON.parse(response); // Parse JSON response
-                    if (jsonResponse.status === 'error') {
-                        $('#notification').removeClass('alert-success').addClass('alert-danger').show();
-                    } else {
-                        $('#addLineModal').modal('hide');
-                        $('#notification').removeClass('alert-danger').addClass('alert-success').show();
-                        setTimeout(function() {
-                            location.reload();
-                        }, 2000);
-                    }
-                    $('#notification-message').text(jsonResponse.message);
-                },
-                error: function() {
-                    $('#notification').removeClass('alert-success').addClass('alert-danger').show();
-                    $('#notification-message').text('Terjadi kesalahan pada server.');
-                }
-            });
-        });
-    </script>
-    <script>
         $(document).ready(function() {
             $('#imageModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
                 var imageUrl = button.data('image');
                 var modal = $(this);
                 modal.find('#modalImage').attr('src', imageUrl);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Ambil data provinsi
-            $.ajax({
-                url: "https://dev.farizdotid.com/api/daerahindonesia/provinsi",
-                method: "GET",
-                success: function(data) {
-                    // Isi dropdown provinsi dengan data dari API
-                    $.each(data.provinsi, function(key, value) {
-                        $("#provinsi").append('<option value="' + value.id + '">' + value.nama + '</option>');
-                    });
-                }
-            });
-
-            $("#provinsi").change(function() {
-                var provinsiId = $(this).val(); // Mendefinisikan provinsiId
-                $("#provinsi_name").val($("#provinsi option:selected").text());
-                $.ajax({
-                    url: "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=" + provinsiId,
-                    method: "GET",
-                    success: function(data) {
-                        $("#kabupaten").empty();
-                        $.each(data.kota_kabupaten, function(key, value) {
-                            $("#kabupaten").append('<option value="' + value.id + '">' + value.nama + '</option>');
-                        });
-                    }
-                });
-            });
-
-            $("#kabupaten").change(function() {
-                var kabupatenId = $(this).val(); // Mendefinisikan kabupatenId
-                $("#kabupaten_name").val($("#kabupaten option:selected").text());
             });
         });
     </script>

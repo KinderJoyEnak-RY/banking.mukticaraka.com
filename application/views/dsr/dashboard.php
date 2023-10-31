@@ -186,7 +186,7 @@
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>CIMB</h3>
-                                    <p>Kode Referal CIMB Anda: <?php echo $referral_code; ?></b></p>
+                                    <p>Kode Referal CIMB Anda: <b><?php echo $referral_code; ?></b></p>
                                     <p>Total data: <?php echo $total_cimb; ?></p>
                                 </div>
                                 <div class="icon">
