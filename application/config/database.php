@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'db',
 	'username' => 'root',
-	'password' => '',
-	'database' => 'pemol',
+	'password' => 'rootpassword',
+	'database' => 'mukticar_banking',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
