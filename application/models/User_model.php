@@ -110,4 +110,56 @@ class User_model extends CI_Model
 
         return $hierarchy;
     }
+
+    public function get_hierarchy_by_koor($koor_code)
+    {
+        // Ambil data KOOR berdasarkan kode KOOR
+        $this->db->where('code', $koor_code);
+        $koor = $this->db->get('users')->row_array();
+
+        // Jika KOOR tidak ditemukan, kembalikan array kosong
+        if (!$koor) {
+            return [];
+        }
+
+        // Ambil semua SPV yang berada di bawah KOOR
+        $this->db->where('parent_code', $koor_code);
+        $spvs = $this->db->get('users')->result_array();
+
+        if (!is_array($spvs)) {
+            $spvs = [];
+        }
+
+        // Untuk setiap SPV, ambil semua DSR yang berada di bawahnya
+        foreach ($spvs as &$spv) {
+            $this->db->where('parent_code', $spv['code']);
+            $dsrs = $this->db->get('users')->result_array();
+
+            $spv['dsrs'] = $dsrs ? $dsrs : []; // Jika tidak ada DSR, tetapkan sebagai array kosong
+        }
+
+        $koor['spvs'] = $spvs;
+
+        return [$koor]; // Kembalikan dalam bentuk array dengan KOOR sebagai item pertama
+    }
+
+    public function get_hierarchy_by_spv($spv_code)
+    {
+        // Ambil data SPV berdasarkan kode SPV
+        $this->db->where('code', $spv_code);
+        $spv = $this->db->get('users')->row_array();
+
+        // Jika SPV tidak ditemukan, kembalikan array kosong
+        if (!$spv) {
+            return [];
+        }
+
+        // Ambil semua DSR yang berada di bawah SPV
+        $this->db->where('parent_code', $spv_code);
+        $dsrs = $this->db->get('users')->result_array();
+
+        $spv['dsrs'] = $dsrs ? $dsrs : []; // Jika tidak ada DSR, tetapkan sebagai array kosong
+
+        return [$spv]; // Kembalikan dalam bentuk array dengan SPV sebagai item pertama
+    }
 }
