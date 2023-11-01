@@ -56,7 +56,7 @@ class Dsr extends CI_Controller
 
         $this->form_validation->set_rules('jenis_skema', 'Jenis Skema', 'required|in_list[minyak,non_minyak]');
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
-        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|exact_length[12]|numeric');
+        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|numeric');
         $this->form_validation->set_rules('nama_toko_merchant', 'Nama Toko', 'required|trim');
         $this->form_validation->set_rules('no_mid', 'No Merchant ID', 'required|trim');
         $this->form_validation->set_rules('alamat_toko', 'Alamat Toko', 'required|trim');
@@ -133,7 +133,7 @@ class Dsr extends CI_Controller
 
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
         $this->form_validation->set_rules('no_hp_nasabah', 'No Tlp Nasabah', 'required|trim|numeric');
-        $this->form_validation->set_rules('no_rek_bsi_syariah_nasabah', 'No Rek BSI Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_rek_bsi_syariah_nasabah', 'No Rek BSI Nasabah', 'required|trim|exact_length[10]|numeric');
 
         if ($this->form_validation->run() === FALSE) {
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);
@@ -207,7 +207,7 @@ class Dsr extends CI_Controller
 
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
         $this->form_validation->set_rules('no_hp_nasabah', 'No HP Nasabah', 'required|trim|numeric');
-        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|exact_length[10]|numeric');
 
         if ($this->form_validation->run() === FALSE) {
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);
@@ -281,7 +281,7 @@ class Dsr extends CI_Controller
 
         $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
         $this->form_validation->set_rules('no_hp_nasabah', 'No HP Nasabah', 'required|trim|numeric');
-        $this->form_validation->set_rules('no_rek_line_nasabah', 'No Rek Line Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_rek_line_nasabah', 'No Rek Line Nasabah', 'required|trim|exact_length[11]|numeric');
 
         if ($this->form_validation->run() === FALSE) {
             echo json_encode(['status' => 'error', 'message' => validation_errors()]);

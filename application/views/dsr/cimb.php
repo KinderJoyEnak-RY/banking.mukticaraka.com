@@ -153,7 +153,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <a href="<?php echo site_url('dsr/tambah_bsi'); ?>" class="btn btn-primary mb-3">Add BSI Data</a>
+                            <a href="<?php echo site_url('dsr/tambah_cimb'); ?>" class="btn btn-primary mb-3">Add CIMB Data</a>
                             <div id="notification" class="alert" style="display:none;">
                                 <span id="notification-message"></span>
                             </div>

@@ -71,7 +71,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                         <div class="form-group">
                             <label for="no_rek_bsi_syariah_nasabah">No Rek BSI Syariah Nasabah:</label>
-                            <input type="text" class="form-control" name="no_rek_bsi_syariah_nasabah" id="no_rek_bsi_syariah_nasabah" required>
+                            <small style="color:red; font-style:italic;">*No Rekening wajib<b> harus 10 angka</b></small>
+                            <input type="text" class="form-control" name="no_rek_bsi_syariah_nasabah" id="no_rek_bsi_syariah_nasabah" required minlength="10" maxlength="10">
                         </div>
                         <div class="form-group">
                             <label for="kota">Provinsi/Kota Akuisisi:</label>

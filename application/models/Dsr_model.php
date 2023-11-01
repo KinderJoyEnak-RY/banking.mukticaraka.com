@@ -54,7 +54,7 @@ class Dsr_model extends CI_Model
     {
         $this->db->group_start();
         $this->db->where('nama_nasabah', $data['nama_nasabah']);
-        $this->db->or_where('no_rek_nasabah', $data['no_rek_nasabah']);
+        // $this->db->or_where('no_rek_nasabah', $data['no_rek_nasabah']);
         $this->db->or_where('no_mid', $data['no_mid']);
         $this->db->group_end();
 

@@ -74,8 +74,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                         <div class="form-group mb-3">
                             <label for="no_rek_nasabah">No Rek Nasabah:</label>
-                            <small style="color:red; font-style:italic;">No Rekening Harus <b>12 Angka</b></small>
-                            <input type="text" class="form-control" name="no_rek_nasabah" id="no_rek_nasabah" required minlength="12" maxlength="12">
+                            <small style="color:red; font-style:italic;">*jika No Rekening belum ada<b> isi dengan nilai 0</b></small>
+                            <input type="text" class="form-control" name="no_rek_nasabah" id="no_rek_nasabah" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="nama_toko_merchant">Nama Toko:</label>
