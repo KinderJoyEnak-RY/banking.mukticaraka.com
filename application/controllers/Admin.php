@@ -544,8 +544,14 @@ class Admin extends CI_Controller
             $sheet->setCellValue('E' . $row, $datum['nama_nasabah']);
             $sheet->setCellValue('F' . $row, $datum['no_hp_nasabah']);
             $sheet->setCellValue('G' . $row, $datum['no_rek_line_nasabah']);
-            $kota = $datum['kabupaten'];
-            $sheet->setCellValue('H' . $row, $kota);
+            $kabupaten = $datum['kabupaten'];
+            $provinsi = $datum['provinsi'];
+
+            // Menggabungkan kabupaten dan provinsi dengan pemisah koma
+            $kabupatenDanProvinsi = $kabupaten . ', ' . $provinsi;
+
+            // Menetapkan gabungan kabupaten dan provinsi ke kolom H
+            $sheet->setCellValue('H' . $row, $kabupatenDanProvinsi);
             $imageUrl = base_url('uploads/' . $datum['ss_detail_dashboard']);
             $sheet->setCellValue('I' . $row, $imageUrl);
             $sheet->getCell('I' . $row)->getHyperlink()->setUrl($imageUrl);
@@ -602,8 +608,14 @@ class Admin extends CI_Controller
             $sheet->setCellValue('E' . $row, $datum['nama_nasabah']);
             $sheet->setCellValue('F' . $row, $datum['no_hp_nasabah']);
             $sheet->setCellValue('G' . $row, $datum['no_rek_line_nasabah']);
-            $kota = $datum['kabupaten'];
-            $sheet->setCellValue('H' . $row, $kota);
+            $kabupaten = $datum['kabupaten'];
+            $provinsi = $datum['provinsi'];
+
+            // Menggabungkan kabupaten dan provinsi dengan pemisah koma
+            $kabupatenDanProvinsi = $kabupaten . ', ' . $provinsi;
+
+            // Menetapkan gabungan kabupaten dan provinsi ke kolom H
+            $sheet->setCellValue('H' . $row, $kabupatenDanProvinsi);
             $imageUrl = base_url('uploads/' . $datum['ss_detail_dashboard']);
             $sheet->setCellValue('I' . $row, $imageUrl);
             $sheet->getCell('I' . $row)->getHyperlink()->setUrl($imageUrl);
