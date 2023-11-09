@@ -38,13 +38,18 @@ class Asm extends CI_Controller
         foreach ($data['subordinates'] as &$bsh) {
             foreach ($bsh['asm']['koors'] as &$koor) {
                 foreach ($koor['spvs'] as &$spv) {
-                    foreach ($spv['dsrs'] as &$dsr) {
-                        // Mendapatkan total data yang telah diinput oleh DSR dari setiap tabel
-                        $dsr['total_data_cimb'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'cimb_forms');
-                        $dsr['total_data_uob'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'uob_forms');
-                        $dsr['total_data_line'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'line_forms');
-                        $dsr['total_data_bsi'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'bsi_forms');
-                        $dsr['total_data_bpd'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'bpd_forms');
+                    // Gabungkan DSR dan SDM dalam satu array
+                    $spv['sales'] = array_merge(
+                        isset($spv['dsrs']) ? $spv['dsrs'] : [],
+                        isset($spv['sdms']) ? $spv['sdms'] : [] // Pastikan Anda telah mengambil data SDM dan menambahkannya ke array dengan key 'sdms'
+                    );
+                    foreach ($spv['sales'] as &$salesperson) {
+                        // Mendapatkan total data yang telah diinput oleh DSR/SDM dari setiap tabel
+                        $salesperson['total_data_cimb'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'cimb_forms');
+                        $salesperson['total_data_uob'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'uob_forms');
+                        $salesperson['total_data_line'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'line_forms');
+                        $salesperson['total_data_bsi'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'bsi_forms');
+                        $salesperson['total_data_bpd'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'bpd_forms');
                     }
                 }
             }

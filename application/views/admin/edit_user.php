@@ -121,6 +121,7 @@
                                             <option value="KOOR">KOOR (Koordinator)</option>
                                             <option value="SPV">SPV (Supervisor)</option>
                                             <option value="DSR">DSR (Direct Sales Rep)</option>
+                                            <option value="SDM">SDM (Staff Digitalisasi Merchant)</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -167,6 +168,7 @@
                 var parentLevel;
                 switch (level) {
                     case 'DSR':
+                    case 'SDM':
                         parentLevel = 'SPV';
                         break;
                     case 'SPV':

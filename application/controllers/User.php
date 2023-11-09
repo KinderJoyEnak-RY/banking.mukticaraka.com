@@ -26,8 +26,13 @@ class User extends CI_Controller
 				$this->session->set_userdata('level', $user['level']);
 				$this->session->set_userdata('name', $user['name']);
 
-				// Redirect user to the appropriate dashboard based on their level
-				redirect(strtolower($user['level']) . '/dashboard');
+				// Cek jika level adalah DSR atau SDM, redirect ke dashboard DSR
+				if ($user['level'] == 'DSR' || $user['level'] == 'SDM') {
+					redirect('dsr/dashboard');
+				} else {
+					// Redirect user to the appropriate dashboard based on their level
+					redirect(strtolower($user['level']) . '/dashboard');
+				}
 			} else {
 				$this->session->set_flashdata('error', 'Password salah');
 				redirect('user');

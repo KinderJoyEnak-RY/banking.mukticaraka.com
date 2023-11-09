@@ -48,7 +48,7 @@ class User_model extends CI_Model
     public function get_hierarchy($code = NULL)
     {
         $hierarchy = [];
-        $levels = ['BSH', 'ASM', 'KOOR', 'SPV', 'DSR'];
+        $levels = ['BSH', 'ASM', 'KOOR', 'SPV', 'DSR', 'SDM']; // 'SDM' sudah ada
 
         foreach ($levels as $level) {
             $this->db->where('level', $level);
@@ -58,11 +58,20 @@ class User_model extends CI_Model
             $users = $this->db->get('users')->result_array();
 
             foreach ($users as $user) {
-                $user['children'] = $this->get_hierarchy($user['code']);
+                // Jika level adalah 'DSR' atau 'SDM', anak-anaknya harus diambil dari level yang sama
+                if ($level === 'DSR' || $level === 'SDM') {
+                    $user['children'] = array_merge(
+                        $this->get_hierarchy($user['code'], 'DSR'),
+                        $this->get_hierarchy($user['code'], 'SDM')
+                    );
+                } else {
+                    $user['children'] = $this->get_hierarchy($user['code']);
+                }
+
                 $hierarchy[] = $user;
             }
 
-            if ($code) {
+            if ($code && ($level === 'DSR' || $level === 'SDM')) {
                 break;
             }
         }

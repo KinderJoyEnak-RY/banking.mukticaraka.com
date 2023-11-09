@@ -15,8 +15,10 @@ class Dsr extends CI_Controller
             redirect('user');
         }
 
-        if ($this->session->userdata('level') != 'DSR') {
-            $this->session->set_flashdata('error', 'You must be an DSR to view this page');
+        // Modifikasi kondisi untuk memeriksa level 'DSR' atau 'SDM'
+        $userLevel = $this->session->userdata('level');
+        if ($userLevel != 'DSR' && $userLevel != 'SDM') {
+            $this->session->set_flashdata('error', 'You must be a DSR or SDM to view this page');
             redirect('user');
         }
     }
