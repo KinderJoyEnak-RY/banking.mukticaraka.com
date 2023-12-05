@@ -88,4 +88,36 @@ class Admin_model extends CI_Model
         $query = $this->db->get('bpd_forms');
         return $query->result_array();
     }
+
+    // MANDIRI
+    public function get_all_data_mandiri()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('mandiri_forms');
+        return $query->result_array();
+    }
+    public function get_filtered_data_mandiri($start_date, $end_date)
+    {
+        $this->db->where('tanggal >=', $start_date);
+        $this->db->where('tanggal <=', $end_date);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('mandiri_forms');
+        return $query->result_array();
+    }
+
+    // BJJ DIGITAL
+    public function get_all_data_bjj()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('bjj_forms');
+        return $query->result_array();
+    }
+    public function get_filtered_data_bjj($start_date, $end_date)
+    {
+        $this->db->where('tanggal >=', $start_date);
+        $this->db->where('tanggal <=', $end_date);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('bjj_forms');
+        return $query->result_array();
+    }
 }

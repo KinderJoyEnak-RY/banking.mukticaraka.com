@@ -24,7 +24,8 @@ class Asm extends CI_Controller
 
     public function dashboard()
     {
-        $this->load->view('asm/dashboard');
+        $data['bankSummaries'] = $this->get_bank_summaries();
+        $this->load->view('asm/dashboard', $data);
     }
 
     public function hierarchy()
@@ -50,6 +51,8 @@ class Asm extends CI_Controller
                         $salesperson['total_data_line'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'line_forms');
                         $salesperson['total_data_bsi'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'bsi_forms');
                         $salesperson['total_data_bpd'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'bpd_forms');
+                        $salesperson['total_data_mandiri'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'mandiri_forms');
+                        $salesperson['total_data_bjj'] = $this->Dsr_model->count_data_by_code($salesperson['code'], 'bjj_forms');
                     }
                 }
             }
@@ -81,6 +84,12 @@ class Asm extends CI_Controller
             case 'line':
                 $data = $this->Asm_model->get_data_by_dsr_code('line_forms', $dsrCode);
                 break;
+            case 'mandiri':
+                $data = $this->Asm_model->get_data_by_dsr_code('mandiri_forms', $dsrCode);
+                break;
+            case 'bjj':
+                $data = $this->Asm_model->get_data_by_dsr_code('bjj_forms', $dsrCode);
+                break;
         }
 
         // Pastikan data sudah diurutkan berdasarkan tanggal
@@ -90,5 +99,21 @@ class Asm extends CI_Controller
 
         // Load view untuk menampilkan data dalam modal
         $this->load->view('asm/details_modal_content', ['data' => $data]);
+    }
+
+    public function get_bank_summaries()
+    {
+        $summaries = [];
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj']; // Daftar bank
+
+        foreach ($banks as $bank) {
+            $table_name = $bank . '_forms';
+            $summaries[$bank] = [
+                'total' => $this->Asm_model->get_total_data($table_name),
+                // Anda dapat menambahkan informasi lain yang relevan
+            ];
+        }
+
+        return $summaries;
     }
 }

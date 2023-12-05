@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan</title>
+    <title>Data Laporan</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -130,17 +130,29 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                <!-- Home link -->
+                <li class="nav-item">
+                    <a href="<?php echo site_url('koor/dashboard'); ?>" class="nav-link">Home</a>
+                </li>
+                <!-- Data Laporan link -->
+                <li class="nav-item">
+                    <a href="<?php echo site_url('koor/hierarchy'); ?>" class="nav-link">Data Laporan</a>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- User Dropdown Menu -->
+                <!-- User Account Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header"><?php echo $this->session->userdata('name'); ?></span>
+                        <div class="dropdown-divider"></div>
+                        <a href="<?php echo site_url('user/profile'); ?>" class="dropdown-item">
+                            <i class="fas fa-user mr-2"></i> Profile
+                        </a>
                         <div class="dropdown-divider"></div>
                         <a href="<?php echo site_url('user/logout'); ?>" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
@@ -155,7 +167,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">KOOR Dashboard</span>
+                <img src="<?php echo base_url('uploads/img/logooo.png'); ?>" alt="PT. MCS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PT. MCS</span>
             </a>
 
             <!-- Sidebar -->
@@ -163,7 +176,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo base_url('uploads/img/profile.jpg'); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?php echo $this->session->userdata('name'); ?></a>
@@ -185,7 +198,7 @@
                             <a href="<?php echo site_url('koor/hierarchy'); ?>" class="nav-link active">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>
-                                    Hirarki
+                                    Data Laporan
                                 </p>
                             </a>
                         </li>
@@ -198,6 +211,23 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Data Laporan</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="<?php echo site_url('koor/dashboard'); ?>">Home</a></li>
+                                <li class="breadcrumb-item active">Data Laporan</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -232,6 +262,8 @@
                                                                                                 <td>LINE: <?php echo $dsr['total_data_line']; ?> <i class="fas fa-info-circle view-details" data-dsr-code="<?php echo $dsr['code']; ?>" data-type="line"></i></td>
                                                                                                 <td>BSI: <?php echo $dsr['total_data_bsi']; ?> <i class="fas fa-info-circle view-details" data-dsr-code="<?php echo $dsr['code']; ?>" data-type="bsi"></i></td>
                                                                                                 <td>BPD: <?php echo $dsr['total_data_bpd']; ?> <i class="fas fa-info-circle view-details" data-dsr-code="<?php echo $dsr['code']; ?>" data-type="bpd"></i></td>
+                                                                                                <td>MANDIRI: <?php echo $dsr['total_data_mandiri']; ?> <i class="fas fa-info-circle view-details" data-dsr-code="<?php echo $dsr['code']; ?>" data-type="mandiri"></i></td>
+                                                                                                <td>BJJ: <?php echo $dsr['total_data_bjj']; ?> <i class="fas fa-info-circle view-details" data-dsr-code="<?php echo $dsr['code']; ?>" data-type="bjj"></i></td>
                                                                                             </tr>
                                                                                         </table>
                                                                                     </td>
@@ -280,6 +312,14 @@
             </div>
         </div>
 
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright © <a href="https://mukticaraka.com/" target="_blank">PT. MCS</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.1
+            </div>
+        </footer>
 
     </div>
     <!-- ./wrapper -->

@@ -4,6 +4,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Spv_model extends CI_Model
 {
 
+    public function get_total_data_by_spv($spvCode, $tableName)
+    {
+        $this->db->select('COUNT(*) as total');
+        $this->db->from($tableName);
+        $this->db->join('users as dsr', $tableName . '.dsr_code = dsr.code');
+        $this->db->join('users as spv', 'dsr.parent_code = spv.code');
+        $this->db->where('spv.code', $spvCode); // Memeriksa spv.code bukan spv.parent_code
+        $query = $this->db->get();
+        return $query->row()->total;
+    }
+
     public function get_total_data($table_name)
     {
         return $this->db->count_all($table_name);
@@ -53,6 +64,22 @@ class Spv_model extends CI_Model
     {
         $this->db->order_by('tanggal', 'DESC');
         $query = $this->db->get('bpd_forms');
+        return $query->result_array();
+    }
+
+    // MANDIRI
+    public function get_all_data_mandiri()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('mandiri_forms');
+        return $query->result_array();
+    }
+
+    // BJJ DIGITAL
+    public function get_all_data_bjj()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('bjj_forms');
         return $query->result_array();
     }
 }

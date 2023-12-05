@@ -272,6 +272,7 @@ class Dsr_model extends CI_Model
             'code' => $code,
             'dsr_code' => $user['code'],
             'dsr_name' => $user['name'],
+            'jenis_skema' => $this->input->post('jenis_skema'),
             'nama_nasabah' => $this->input->post('nama_nasabah'),
             'no_hp_nasabah' => $this->input->post('no_hp_nasabah'),
             'kota' => $kota,
@@ -372,5 +373,131 @@ class Dsr_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->delete('bpd_forms');
+    }
+
+    // MANDIRI
+    public function get_all_mandiri_forms($code)
+    {
+        $this->db->select('mandiri_forms.*, users.code, users.name as nama_dsr');
+        $this->db->from('mandiri_forms');
+        $this->db->join('users', 'mandiri_forms.code = users.code', 'left');
+        $this->db->where('mandiri_forms.code', $code);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function is_data_existttttt($data)
+    {
+        $this->db->group_start();
+        $this->db->where('nama_nasabah', $data['nama_nasabah']);
+        $this->db->or_where('no_hp_nasabah', $data['no_hp_nasabah']);
+        $this->db->or_where('no_rek_nasabah', $data['no_rek_nasabah']);
+        $this->db->group_end();
+
+        $query = $this->db->get('mandiri_forms');
+        return $query->num_rows() > 0;
+    }
+    public function add_mandiri($code, $fileNames, $supervisors)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $user = $this->get_user_details($code);
+        $data = array(
+            'tanggal' => date('Y-m-d H:i:s'),
+            'code' => $code,
+            'dsr_code' => $user['code'],
+            'dsr_name' => $user['name'],
+            'id_referral' => $this->input->post('id_referral'),
+            'nama_nasabah' => $this->input->post('nama_nasabah'),
+            'no_hp_nasabah' => $this->input->post('no_hp_nasabah'),
+            'no_rek_nasabah' => $this->input->post('no_rek_nasabah'),
+            'area_akuisisi' => $this->input->post('area_akuisisi'),
+            'ss_akun_dibuat' => $fileNames['ss_akun_dibuat'],
+            'ss_akun' => $fileNames['ss_akun'],
+            'spv' => $supervisors['spv'],
+            'koor' => $supervisors['koor'],
+            'asm' => $supervisors['asm']
+        );
+
+        // Cek apakah data sudah ada
+        if ($this->is_data_existttttt($data)) {
+            return array('status' => 'error', 'message' => 'Data dengan informasi yang sama sudah ada.');
+        }
+
+        if (!$this->db->insert('mandiri_forms', $data)) {
+            log_message('error', 'Error inserting data: ' . print_r($this->db->error(), true));
+            return array('status' => 'error', 'message' => 'Gagal menambahkan data ke database.');
+        }
+
+        log_message('info', 'Data inserted successfully: ' . print_r($data, true));
+        return array('status' => 'success', 'message' => 'Data berhasil ditambahkan.');
+    }
+    public function delete_mandiri($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('mandiri_forms');
+    }
+
+    // BJJ DIGITAL
+    public function get_all_bjj_forms($code)
+    {
+        $this->db->select('bjj_forms.*, users.code, users.name as nama_dsr');
+        $this->db->from('bjj_forms');
+        $this->db->join('users', 'bjj_forms.code = users.code', 'left');
+        $this->db->where('bjj_forms.code', $code);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function is_data_existtttttt($data)
+    {
+        $this->db->group_start();
+        $this->db->where('no_hp_aktif_nasabah', $data['no_hp_aktif_nasabah']);
+        $this->db->or_where('no_rek_nasabah', $data['no_rek_nasabah']);
+        $this->db->group_end();
+
+        $query = $this->db->get('bjj_forms');
+        return $query->num_rows() > 0;
+    }
+    public function add_bjj($code, $fileName, $supervisors, $select_setoran, $nominal_setoran)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $user = $this->get_user_details($code);
+        $data = array(
+            'tanggal' => date('Y-m-d H:i:s'),
+            'code' => $code,
+            'dsr_code' => $user['code'],
+            'dsr_name' => $user['name'],
+            'nama_nasabah' => $this->input->post('nama_nasabah'),
+            'no_hp_aktif_nasabah' => $this->input->post('no_hp_aktif_nasabah'),
+            'no_rek_nasabah' => $this->input->post('no_rek_nasabah'),
+            'jenis_tabungan' => $this->input->post('jenis_tabungan'),
+            'ss_dashboard' => $fileName['ss_dashboard'],
+            'ss_saku_utama' => $fileName['ss_saku_utama'],
+            'spv' => $supervisors['spv'],
+            'koor' => $supervisors['koor'],
+            'asm' => $supervisors['asm'],
+            'select_setoran' => $select_setoran,
+            'nominal_setoran' => $nominal_setoran
+        );
+
+        // Cek apakah data sudah ada
+        if ($this->is_data_existtttttt($data)) {
+            return array('status' => 'error', 'message' => 'Data dengan informasi yang sama sudah ada.');
+        }
+
+        if (!$this->db->insert('bjj_forms', $data)) {
+            log_message('error', 'Error inserting data: ' . print_r($this->db->error(), true));
+            return array('status' => 'error', 'message' => 'Gagal menambahkan data ke database.');
+        }
+
+        log_message('info', 'Data inserted successfully: ' . print_r($data, true));
+        return array('status' => 'success', 'message' => 'Data berhasil ditambahkan.');
+    }
+    public function delete_bjj($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('bjj_forms');
     }
 }

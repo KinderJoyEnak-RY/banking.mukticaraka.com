@@ -201,6 +201,67 @@ if ($type == 'cimb' && $data && isset($data[0]['jenis_skema'])) {
         </table>
     </div>
 <?php
+} elseif ($type == 'mandiri' && $data && isset($data[0]['no_hp_nasabah'])) {
+?>
+    <!-- Tampilkan tabel MANDIRI -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>ID Referral</th>
+                    <th>Nama Nasabah</th>
+                    <th>No HP Nasabah</th>
+                    <th>No Rek Nasabah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $row) : ?>
+                    <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?= $row['tanggal'] ?></td>
+                        <td><?= $row['id_referral'] ?></td>
+                        <td><?= $row['nama_nasabah'] ?></td>
+                        <td><?= $row['no_hp_nasabah'] ?></td>
+                        <td><?= $row['no_rek_nasabah'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php
+} elseif ($type == 'bjj' && $data && isset($data[0]['no_hp_aktif_nasabah'])) {
+?>
+    <!-- Tampilkan tabel BJJ DIGITAL -->
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Nama Nasabah</th>
+                    <th>No HP Nasabah</th>
+                    <th>No Rek Nasabah</th>
+                    <th>Jenis Tabungan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data as $row) : ?>
+                    <tr>
+                        <td><?= $no++ ?></td>
+                        <td><?= $row['tanggal'] ?></td>
+                        <td><?= $row['nama_nasabah'] ?></td>
+                        <td><?= $row['no_hp_aktif_nasabah'] ?></td>
+                        <td><?= $row['no_rek_nasabah'] ?></td>
+                        <td><?= $row['jenis_tabungan'] ?></td>
+
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php
 } else {
     echo "<p>No data available.</p>";
 }

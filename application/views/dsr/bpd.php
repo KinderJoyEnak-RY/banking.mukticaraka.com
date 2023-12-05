@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BPD DIY SYARIAH</title>
+    <title>BPD DIY</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
@@ -21,8 +21,32 @@
         .nav .nav-treeview .nav-icon.sub-menu-icon {
             font-size: 0.6em !important;
         }
-    </style>
 
+        .btn-primary {
+            background-color: #4e73df;
+            /* Warna biru */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            /* Warna biru yang lebih gelap */
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .btn-primary {
+                width: 100%;
+                /* Button lebar penuh pada layar kecil */
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -35,6 +59,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo site_url('dsr/dashboard'); ?>" class="nav-link">Home</a>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -45,7 +72,8 @@
                         <i class="far fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header"><?php echo $this->session->userdata('name'); ?></span>
+                        <span class="dropdown-item dropdown-header"><?php echo $this->session->userdata('name'); ?>; <?php echo $this->session->userdata('code'); ?></span>
+                        <span class="dropdown-item dropdown-header"></span>
                         <div class="dropdown-divider"></div>
                         <a href="<?php echo site_url('user/logout'); ?>" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
@@ -60,7 +88,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">DSR Dashboard</span>
+                <img src="<?php echo base_url('uploads/img/logooo.png'); ?>" alt="PT. MCS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PT. MCS</span>
             </a>
 
             <!-- Sidebar -->
@@ -68,7 +97,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo base_url('uploads/img/profile.jpg'); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?php echo $this->session->userdata('name'); ?></a>
@@ -90,7 +119,7 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Banking
+                                    Banking Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -104,13 +133,13 @@
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/bsi'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>BSI</p>
+                                        <p>BSI Syariah</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/cimb'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>CIMB</p>
+                                        <p>CIMB NIAGA</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -119,15 +148,22 @@
                                         <p>LINE BANK</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="<?php echo site_url('dsr/mandiri'); ?>" class="nav-link">
-                                        <p>MANDIRI</p>
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/uob'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>TMRW By UOB</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('dsr/mandiri'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BANK MANDIRI</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('dsr/bjj'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BJJ DIGITAL</p>
                                     </a>
                                 </li>
                             </ul>
@@ -140,15 +176,23 @@
         </aside>
 
         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>BPD DIY Data</h1>
+                            <h1>BPD DIY</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="<?php echo site_url('dsr/dashboard'); ?>">Home</a></li>
+                                <li class="breadcrumb-item active">BPD DIY</li>
+                            </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
+
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -261,6 +305,14 @@
             </div>
         </div>
 
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright © <a href="https://mukticaraka.com/" target="_blank">PT. MCS</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.1
+            </div>
+        </footer>
 
     </div>
     <!-- ./wrapper -->

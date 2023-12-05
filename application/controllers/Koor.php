@@ -24,7 +24,16 @@ class Koor extends CI_Controller
 
     public function dashboard()
     {
-        $this->load->view('koor/dashboard');
+        $koorCode = $this->session->userdata('code');
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj']; // Daftar bank
+
+        $data['dsrSummaries'] = [];
+        foreach ($banks as $bank) {
+            $table_name = $bank . '_forms';
+            $data['dsrSummaries'][$bank] = $this->Koor_model->get_total_data_by_koor($koorCode, $table_name);
+        }
+
+        $this->load->view('koor/dashboard', $data);
     }
 
     public function hierarchy()
@@ -44,6 +53,8 @@ class Koor extends CI_Controller
                     $dsr['total_data_line'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'line_forms');
                     $dsr['total_data_bsi'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'bsi_forms');
                     $dsr['total_data_bpd'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'bpd_forms');
+                    $dsr['total_data_mandiri'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'mandiri_forms');
+                    $dsr['total_data_bjj'] = $this->Dsr_model->count_data_by_code($dsr['code'], 'bjj_forms');
                 }
             }
         }
@@ -73,6 +84,12 @@ class Koor extends CI_Controller
                 break;
             case 'line':
                 $data = $this->Koor_model->get_data_by_dsr_code('line_forms', $dsrCode);
+                break;
+            case 'mandiri':
+                $data = $this->Koor_model->get_data_by_dsr_code('mandiri_forms', $dsrCode);
+                break;
+            case 'bjj':
+                $data = $this->Koor_model->get_data_by_dsr_code('bjj_forms', $dsrCode);
                 break;
         }
 

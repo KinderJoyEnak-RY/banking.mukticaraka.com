@@ -4,31 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Data</title>
+    <title>Users</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <!-- DataTables CSS & JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
     <style>
+        .small-table-font {
+            font-size: 0.7rem;
+        }
+
         .nav .nav-treeview .nav-icon.sub-menu-icon {
             font-size: 0.6em !important;
         }
 
-        .table tbody tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .table td,
-        .table th {
-            padding: 15px;
-            font-size: 0.8rem;
-        }
-
-        .btn-sm {
-            margin-right: 5px;
+        @media (min-width: 768px) {
+            .card-header .form-group {
+                margin-bottom: 0;
+                /* Menghilangkan margin bawah */
+            }
         }
     </style>
 </head>
@@ -43,6 +40,9 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo site_url('admin/dashboard'); ?>" class="nav-link">Home</a>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -53,7 +53,8 @@
                         <i class="far fa-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header"><?php echo $this->session->userdata('name'); ?></span>
+                        <span class="dropdown-item dropdown-header"><?php echo $this->session->userdata('name'); ?>; <?php echo $this->session->userdata('code'); ?></span>
+                        <span class="dropdown-item dropdown-header"></span>
                         <div class="dropdown-divider"></div>
                         <a href="<?php echo site_url('user/logout'); ?>" class="dropdown-item">
                             <i class="fas fa-sign-out-alt mr-2"></i> Logout
@@ -68,7 +69,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">Admin Dashboard</span>
+                <img src="<?php echo base_url('uploads/img/logooo.png'); ?>" alt="PT. MCS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PT. MCS</span>
             </a>
 
             <!-- Sidebar -->
@@ -76,7 +78,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo base_url('uploads/img/profile.jpg'); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?php echo $this->session->userdata('name'); ?></a>
@@ -98,7 +100,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Banking
+                                    Banking Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -112,13 +114,13 @@
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('admin/bsi'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>BSI</p>
+                                        <p>BSI Syariah</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('admin/cimb'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>CIMB</p>
+                                        <p>CIMB NIAGA</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -127,15 +129,22 @@
                                         <p>LINE BANK</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="<?php echo site_url('admin/uob'); ?>" class="nav-link">
-                                        <p>MANDIRI</p>
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('admin/uob'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>TMRW By UOB</p>
+                                        <p>TMRW by UOB</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('admin/mandiri'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BANK MANDIRI</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('admin/bjj'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BJJ DIGITAL</p>
                                     </a>
                                 </li>
                             </ul>
@@ -159,15 +168,27 @@
             <!-- /.sidebar -->
         </aside>
 
+        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <section class="content">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
                 <div class="container-fluid">
-                    <div class="row mb-2 mt-4">
-                        <div class="col-12">
-                            <!-- Header "Data User" -->
-                            <h2>Data User</h2>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Users</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="<?php echo site_url('admin/dashboard'); ?>">Home</a></li>
+                                <li class="breadcrumb-item active">Users</li>
+                            </ol>
                         </div>
                     </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <section class="content">
+                <div class="container-fluid">
                     <div class="row mb-3">
                         <div class="col-12 text-right">
                             <!-- Tombol "Add User" dengan styling tambahan -->
@@ -232,6 +253,15 @@
                 </div>
             </section>
         </div>
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright © <a href="https://mukticaraka.com/" target="_blank">PT. MCS</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.1
+            </div>
+        </footer>
 
     </div>
     <!-- ./wrapper -->

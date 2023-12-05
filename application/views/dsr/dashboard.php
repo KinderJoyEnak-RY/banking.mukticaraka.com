@@ -23,6 +23,11 @@
             justify-content: center;
             /* Ini akan memusatkan konten secara vertikal */
         }
+
+        .info-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+        }
     </style>
 </head>
 
@@ -35,6 +40,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo site_url('dsr/dashboard'); ?>" class="nav-link">Home</a>
                 </li>
             </ul>
 
@@ -62,7 +70,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="#" class="brand-link">
-                <span class="brand-text font-weight-light">DSR Dashboard</span>
+                <img src="<?php echo base_url('uploads/img/logooo.png'); ?>" alt="PT. MCS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PT. MCS</span>
             </a>
 
             <!-- Sidebar -->
@@ -70,7 +79,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="<?php echo base_url('uploads/img/profile.jpg'); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block"><?php echo $this->session->userdata('name'); ?></a>
@@ -92,7 +101,7 @@
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
-                                    Banking
+                                    Banking Products
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -106,13 +115,13 @@
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/bsi'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>BSI</p>
+                                        <p>BSI Syariah</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/cimb'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
-                                        <p>CIMB</p>
+                                        <p>CIMB NIAGA</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -121,15 +130,22 @@
                                         <p>LINE BANK</p>
                                     </a>
                                 </li>
-                                <!-- <li class="nav-item">
-                                    <a href="<?php echo site_url('dsr/uob'); ?>" class="nav-link">
-                                        <p>MANDIRI</p>
-                                    </a>
-                                </li> -->
                                 <li class="nav-item">
                                     <a href="<?php echo site_url('dsr/uob'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>TMRW By UOB</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('dsr/mandiri'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BANK MANDIRI</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('dsr/bjj'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>BJJ DIGITAL</p>
                                     </a>
                                 </li>
                             </ul>
@@ -143,145 +159,56 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>DSR Dashboard</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="<?php echo site_url('dsr/dashboard'); ?>">Home</a></li>
+                                <li class="breadcrumb-item active">DSR Dashboard</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Alert -->
-                    <div class="alert alert-warning alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h5><i class="icon fas fa-exclamation-triangle"></i> Welcome!</h5>
-                        Hallo <b><?php echo $this->session->userdata('name'); ?></b>, ini adalah dashboard DSR.
-                        Selalu ingat untuk <a href="<?php echo site_url('user/logout'); ?>" class="alert-link">Logout</a> demi keamanan akun Anda!
-                    </div>
-                    <!-- Cards -->
+                    <!-- Info Boxes -->
                     <div class="row">
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-primary">
-                                <div class="inner">
-                                    <h3>BPD DIY</h3>
-                                    <p>Total data: <?php echo $total_bpd; ?></p>
+                        <?php foreach ($bankData as $bankName => $bankDetails) : ?>
+                            <div class="col-lg-4 col-6 col-sm-12">
+                                <!-- Info box -->
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-primary"><i class="fas fa-university"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text"><?php echo $bankName; ?></span>
+                                        <span class="info-box-number"><?php echo $bankDetails['total']; ?></span>
+                                        <a href="<?php echo site_url('dsr/' . strtolower($bankName)); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                    </div>
                                 </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/bpd'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>BSI Syariah</h3>
-                                    <p>Total data: <?php echo $total_bsi; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/bsi'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>CIMB</h3>
-                                    <p>Kode Referal CIMB Anda: <b><?php echo $referral_code; ?></b></p>
-                                    <p>Total data: <?php echo $total_cimb; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/cimb'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>LINE BANK</h3>
-                                    <p>KODE REFEFERAL: <b>GHVRS8</b></p>
-                                    <p>Total data: <?php echo $total_line; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/line'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>BANK MUAMALAT</h3>
-                                    <p>Coming Soon</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/dashboard'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-dark">
-                                <div class="inner">
-                                    <h3>TMRW By UOB</h3>
-                                    <p>KODE REFERAL: <b>C00073022560</b></p>
-                                    <p>Total data: <?php echo $total_uob; ?></p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/uob'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-light">
-                                <div class="inner">
-                                    <h3>BANK NEO</h3>
-                                    <p>Coming Soon</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/dashboard'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-light">
-                                <div class="inner">
-                                    <h3>ALADIN SYARIAH</h3>
-                                    <p>Coming Soon</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/dashboard'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-6 col-sm-12 col-12">
-                            <!-- small box -->
-                            <div class="small-box bg-light">
-                                <div class="inner">
-                                    <h3>BJJ DIGITAL</h3>
-                                    <p>Coming Soon</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <a href="<?php echo site_url('dsr/dashboard'); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- Add more cards similarly -->
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright © <a href="https://mukticaraka.com/" target="_blank">PT. MCS</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.1
+            </div>
+        </footer>
 
     </div>
     <!-- ./wrapper -->

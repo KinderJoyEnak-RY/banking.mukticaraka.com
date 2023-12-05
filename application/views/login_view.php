@@ -11,19 +11,40 @@
 	<style>
 		body {
 			overflow: hidden;
-			/* Prevent scrolling */
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
 		}
 
 		.login-section {
+			flex-grow: 1;
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			height: 100vh;
+			background: linear-gradient(135deg, #4facfe, #00f2fe);
+
+			animation: fadeIn 1s ease-in-out;
 		}
 
-		.copyright-text {
+		footer {
 			text-align: center;
-			margin-top: 20px;
+			padding: 10px 0;
+			background: #FFF;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		.btn:hover {
+			background-color: #ff8c42;
+			transition: background-color 0.3s ease-in-out;
 		}
 
 		@media (min-width: 768px) {
@@ -35,12 +56,11 @@
 </head>
 
 <body>
-	<section class="vh-100 login-section">
+	<section class="login-section">
 		<div class="container-fluid">
 			<div class="row h-100">
-				<div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-black">
-
-					<img src="<?= base_url('uploads/img/logo1.jpg'); ?>" alt="Logo" class="mb-5" style="width: 300px;">
+				<div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-black form-container">
+					<img src="<?= base_url('uploads/img/logooo.png'); ?>" alt="Logo" class="mb-5" style="width: 300px;">
 					<?php if ($this->session->flashdata('error')) : ?>
 						<div class="alert alert-danger" role="alert">
 							<?php echo $this->session->flashdata('error'); ?>
@@ -66,15 +86,17 @@
 						</div>
 					</form>
 
-					<span class="copyright-text">Copyright © 2023 All rights reserved.</span>
-
 				</div>
 				<div class="col-sm-12 col-md-6 px-0 d-none d-md-block">
-					<img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8YnVzaW5lc3N8fHx8fHwxNjk3Njc5MDY5&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1080" alt="Login image" class="w-100 h-100" style="object-fit: cover; object-position: left;">
+					<img src="<?= base_url('uploads/img/com3.jpg'); ?>" alt="Login image" class="w-100 h-100" style="object-fit: cover; object-position: left;">
 				</div>
 			</div>
 		</div>
 	</section>
+
+	<footer>
+		Copyright © 2023 All rights reserved.
+	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

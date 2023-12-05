@@ -27,11 +27,19 @@ class Dsr extends CI_Controller
     {
         $code = $this->session->userdata('code');
         $data['referral_code'] = $this->Dsr_model->get_referral_code($code);
-        $data['total_cimb'] = $this->Dsr_model->count_data_by_code($code, 'cimb_forms');
-        $data['total_bpd'] = $this->Dsr_model->count_data_by_code($code, 'bpd_forms');
-        $data['total_line'] = $this->Dsr_model->count_data_by_code($code, 'line_forms');
-        $data['total_uob'] = $this->Dsr_model->count_data_by_code($code, 'uob_forms');
-        $data['total_bsi'] = $this->Dsr_model->count_data_by_code($code, 'bsi_forms');
+
+        // Create an associative array to hold data for each bank
+        $data['bankData'] = [
+            'CIMB' => ['total' => $this->Dsr_model->count_data_by_code($code, 'cimb_forms')],
+            'BPD' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bpd_forms')],
+            'LINE' => ['total' => $this->Dsr_model->count_data_by_code($code, 'line_forms')],
+            'UOB' => ['total' => $this->Dsr_model->count_data_by_code($code, 'uob_forms')],
+            'BSI' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bsi_forms')],
+            'MANDIRI' => ['total' => $this->Dsr_model->count_data_by_code($code, 'mandiri_forms')],
+            'BJJ' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bjj_forms')]
+            // Add other banks similarly
+        ];
+
         $this->load->view('dsr/dashboard', $data);
     }
 
@@ -409,5 +417,166 @@ class Dsr extends CI_Controller
     {
         $this->Dsr_model->delete_bpd($id);
         redirect('dsr/bpd');
+    }
+
+    // MANDIRI
+    public function mandiri()
+    {
+        $code = $this->session->userdata('code');
+        $data['mandiri_forms'] = $this->Dsr_model->get_all_mandiri_forms($code);
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/mandiri', $data);
+    }
+    public function tambah_mandiri()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_mandiri', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
+    public function add_mandiri()
+    {
+        $code = $this->session->userdata('code');
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
+        $this->form_validation->set_rules('no_hp_nasabah', 'No HP Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|numeric');
+
+        if ($this->form_validation->run() === FALSE) {
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+        } else {
+            $code = $this->session->userdata('code');
+
+            // Ambil detail user
+            $supervisors = $this->Dsr_model->get_supervisors($code);
+
+            // Names of input field
+            $files = ['ss_akun_dibuat', 'ss_akun'];
+            $fileNames = [];
+
+            // Configure upload.
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 5000;
+            $this->load->library('upload', $config);
+
+            // Loop through each file
+            foreach ($files as $file) {
+                if (!$this->upload->do_upload($file)) {
+                    // Handle error
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect('dsr/mandiri');
+                } else {
+                    // Save the file name
+                    $uploadData = $this->upload->data();
+                    $fileNames[$file] = $uploadData['file_name'];
+                    // error_log('File Names: ' . print_r($fileNames, true));
+                }
+            }
+
+            // Add mandiri data
+            $result = $this->Dsr_model->add_mandiri($code, $fileNames, $supervisors);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/mandiri');
+        }
+    }
+    public function delete_mandiri($id)
+    {
+        $this->Dsr_model->delete_mandiri($id);
+        redirect('dsr/mandiri');
+    }
+
+    // BJJ DIGITAL
+    public function bjj()
+    {
+        $code = $this->session->userdata('code');
+        $data['bjj_forms'] = $this->Dsr_model->get_all_bjj_forms($code);
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/bjj', $data);
+    }
+    public function tambah_bjj()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_bjj', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
+    public function add_bjj()
+    {
+        $code = $this->session->userdata('code');
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
+        $this->form_validation->set_rules('no_hp_aktif_nasabah', 'No HP Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('select_setoran', 'Select Setoran', 'required|trim');
+
+        // Inisialisasi variabel
+        $select_setoran = $this->input->post('select_setoran');
+        $nominal_setoran = null;
+
+        // Validasi kondisional untuk 'nominal_setoran'
+        if ($select_setoran == 'setoran') {
+            $this->form_validation->set_rules('nominal_setoran', 'Nominal Setoran', 'required|trim');
+            $nominal_setoran = $this->input->post('nominal_setoran');
+            // Menghapus format rupiah
+            $nominal_setoran = str_replace('Rp. ', '', $nominal_setoran);
+            $nominal_setoran = str_replace('.', '', $nominal_setoran);
+            $nominal_setoran = str_replace(',', '.', $nominal_setoran);
+        }
+
+        if ($this->form_validation->run() === FALSE) {
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+        } else {
+            $code = $this->session->userdata('code');
+            $supervisors = $this->Dsr_model->get_supervisors($code);
+
+            // Names of input field
+            $files = ['ss_dashboard', 'ss_saku_utama'];
+            $fileNames = [];
+
+            // Configure upload.
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 5000;
+            $this->load->library('upload', $config);
+
+            // Loop through each file
+            foreach ($files as $file) {
+                if (!$this->upload->do_upload($file)) {
+                    // Handle error
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect('dsr/bjj');
+                } else {
+                    // Save the file name
+                    $uploadData = $this->upload->data();
+                    $fileNames[$file] = $uploadData['file_name'];
+                    // error_log('File Names: ' . print_r($fileNames, true));
+                }
+            }
+
+            // Kirimkan data ke model
+            $result = $this->Dsr_model->add_bjj($code, $fileNames, $supervisors, $select_setoran, $nominal_setoran);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/bjj');
+        }
+    }
+    public function delete_bjj($id)
+    {
+        $this->Dsr_model->delete_bjj($id);
+        redirect('dsr/bjj');
     }
 }

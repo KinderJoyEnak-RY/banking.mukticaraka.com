@@ -55,4 +55,20 @@ class Asm_model extends CI_Model
         $query = $this->db->get('bpd_forms');
         return $query->result_array();
     }
+
+    // MANDIRI
+    public function get_all_data_mandiri()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('mandiri_forms');
+        return $query->result_array();
+    }
+
+    // BJJ DIGITAL
+    public function get_all_data_bjj()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('bjj_forms');
+        return $query->result_array();
+    }
 }
