@@ -36,7 +36,8 @@ class Dsr extends CI_Controller
             'UOB' => ['total' => $this->Dsr_model->count_data_by_code($code, 'uob_forms')],
             'BSI' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bsi_forms')],
             'MANDIRI' => ['total' => $this->Dsr_model->count_data_by_code($code, 'mandiri_forms')],
-            'BJJ' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bjj_forms')]
+            'BJJ' => ['total' => $this->Dsr_model->count_data_by_code($code, 'bjj_forms')],
+            'MUAMALAT' => ['total' => $this->Dsr_model->count_data_by_code($code, 'muamalat_forms')]
             // Add other banks similarly
         ];
 
@@ -578,5 +579,77 @@ class Dsr extends CI_Controller
     {
         $this->Dsr_model->delete_bjj($id);
         redirect('dsr/bjj');
+    }
+
+    // Bank Muamalat
+    public function muamalat()
+    {
+        $code = $this->session->userdata('code');
+        $data['muamalat_forms'] = $this->Dsr_model->get_all_muamalat_forms($code);
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/muamalat', $data);
+    }
+    public function tambah_muamalat()
+    {
+        $code = $this->session->userdata('code');
+        $data['supervisors'] = $this->Dsr_model->get_supervisors($code);
+        $this->load->view('dsr/tambah_muamalat', $data);  // Modifikasi baris ini untuk meneruskan $data ke tampilan
+    }
+    public function add_muamalat()
+    {
+        $code = $this->session->userdata('code');
+
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('nama_nasabah', 'Nama Nasabah', 'required|trim');
+        $this->form_validation->set_rules('no_rek_nasabah', 'No Rek Nasabah', 'required|trim|numeric');
+        $this->form_validation->set_rules('no_hp_aktif_nasabah', 'No HP Nasabah', 'required|trim|numeric');
+
+        if ($this->form_validation->run() === FALSE) {
+            echo json_encode(['status' => 'error', 'message' => validation_errors()]);
+        } else {
+            $code = $this->session->userdata('code');
+            $supervisors = $this->Dsr_model->get_supervisors($code);
+
+            // Names of input field
+            $files = ['ss_dashboard', 'ss_transaksi'];
+            $fileNames = [];
+
+            // Configure upload.
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'gif|jpg|jpeg|png';
+            $config['max_size'] = 5000;
+            $this->load->library('upload', $config);
+
+            // Loop through each file
+            foreach ($files as $file) {
+                if (!$this->upload->do_upload($file)) {
+                    // Handle error
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect('dsr/muamalat');
+                } else {
+                    // Save the file name
+                    $uploadData = $this->upload->data();
+                    $fileNames[$file] = $uploadData['file_name'];
+                    // error_log('File Names: ' . print_r($fileNames, true));
+                }
+            }
+
+            // Kirimkan data ke model
+            $result = $this->Dsr_model->add_muamalat($code, $fileNames, $supervisors);
+            if ($result['status'] == 'error') {
+                $this->session->set_flashdata('error', $result['message']);
+            } else {
+                $this->session->set_flashdata('success', $result['message']);
+            }
+            redirect('dsr/muamalat');
+        }
+    }
+    public function delete_muamalat($id)
+    {
+        $this->Dsr_model->delete_muamalat($id);
+        redirect('dsr/muamalat');
     }
 }

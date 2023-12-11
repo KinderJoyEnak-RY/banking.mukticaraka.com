@@ -921,7 +921,7 @@ class Admin extends CI_Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Set header tabel
-        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Nama Nasabah", "No HP Nasabah", "No Rek Nasabah", "Jenis Tabungan", "Jenis Setoran", "Nominal Setoran", "SS Dashboard", "SS Saku Utama", "SPV", "KOOR", "ASM"];
+        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Area Akuisisi", "Nama Nasabah", "No HP Nasabah", "No Rek Nasabah", "Jenis Tabungan", "Jenis Setoran", "Nominal Setoran", "SS Dashboard", "SS Saku Utama", "SPV", "KOOR", "ASM"];
         $col = 'A';
         foreach ($headers as $header) {
             $sheet->setCellValue($col . '1', $header);
@@ -935,21 +935,22 @@ class Admin extends CI_Controller
             $sheet->setCellValue('B' . $row, $datum['tanggal']);
             $sheet->setCellValue('C' . $row, $datum['dsr_code']);
             $sheet->setCellValue('D' . $row, $datum['dsr_name']);
-            $sheet->setCellValue('E' . $row, $datum['nama_nasabah']);
-            $sheet->setCellValue('F' . $row, $datum['no_hp_aktif_nasabah']);
-            $sheet->setCellValue('G' . $row, $datum['no_rek_nasabah']);
-            $sheet->setCellValue('H' . $row, $datum['jenis_tabungan']);
-            $sheet->setCellValue('I' . $row, $datum['select_setoran']);
-            $sheet->setCellValue('J' . $row, $datum['nominal_setoran']);
+            $sheet->setCellValue('E' . $row, $datum['area_akuisisi']);
+            $sheet->setCellValue('F' . $row, $datum['nama_nasabah']);
+            $sheet->setCellValue('G' . $row, $datum['no_hp_aktif_nasabah']);
+            $sheet->setCellValue('H' . $row, $datum['no_rek_nasabah']);
+            $sheet->setCellValue('I' . $row, $datum['jenis_tabungan']);
+            $sheet->setCellValue('J' . $row, $datum['select_setoran']);
+            $sheet->setCellValue('K' . $row, $datum['nominal_setoran']);
             $imageUrl = base_url('uploads/' . $datum['ss_dashboard']);
-            $sheet->setCellValue('K' . $row, $imageUrl);
-            $sheet->getCell('K' . $row)->getHyperlink()->setUrl($imageUrl);
-            $imageUrl = base_url('uploads/' . $datum['ss_saku_utama']);
             $sheet->setCellValue('L' . $row, $imageUrl);
             $sheet->getCell('L' . $row)->getHyperlink()->setUrl($imageUrl);
-            $sheet->setCellValue('M' . $row, $datum['spv']);
-            $sheet->setCellValue('N' . $row, $datum['koor']);
-            $sheet->setCellValue('O' . $row, $datum['asm']);
+            $imageUrl = base_url('uploads/' . $datum['ss_saku_utama']);
+            $sheet->setCellValue('M' . $row, $imageUrl);
+            $sheet->getCell('M' . $row)->getHyperlink()->setUrl($imageUrl);
+            $sheet->setCellValue('N' . $row, $datum['spv']);
+            $sheet->setCellValue('O' . $row, $datum['koor']);
+            $sheet->setCellValue('P' . $row, $datum['asm']);
             $row++;
         }
 
@@ -980,7 +981,7 @@ class Admin extends CI_Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Set header tabel
-        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Nama Nasabah", "No HP Nasabah", "No Rek Nasabah", "Jenis Tabungan", "Jenis Setoran", "Nominal Setoran", "SS Dashboard", "SS Saku Utama", "SPV", "KOOR", "ASM"];
+        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Area Akuisisi", "Nama Nasabah", "No HP Nasabah", "No Rek Nasabah", "Jenis Tabungan", "Jenis Setoran", "Nominal Setoran", "SS Dashboard", "SS Saku Utama", "SPV", "KOOR", "ASM"];
         $col = 'A';
         foreach ($headers as $header) {
             $sheet->setCellValue($col . '1', $header);
@@ -994,21 +995,22 @@ class Admin extends CI_Controller
             $sheet->setCellValue('B' . $row, $datum['tanggal']);
             $sheet->setCellValue('C' . $row, $datum['dsr_code']);
             $sheet->setCellValue('D' . $row, $datum['dsr_name']);
-            $sheet->setCellValue('E' . $row, $datum['nama_nasabah']);
-            $sheet->setCellValue('F' . $row, $datum['no_hp_aktif_nasabah']);
-            $sheet->setCellValue('G' . $row, $datum['no_rek_nasabah']);
-            $sheet->setCellValue('H' . $row, $datum['jenis_tabungan']);
-            $sheet->setCellValue('I' . $row, $datum['select_setoran']);
-            $sheet->setCellValue('J' . $row, $datum['nominal_setoran']);
+            $sheet->setCellValue('E' . $row, $datum['area_akuisisi']);
+            $sheet->setCellValue('F' . $row, $datum['nama_nasabah']);
+            $sheet->setCellValue('G' . $row, $datum['no_hp_aktif_nasabah']);
+            $sheet->setCellValue('H' . $row, $datum['no_rek_nasabah']);
+            $sheet->setCellValue('I' . $row, $datum['jenis_tabungan']);
+            $sheet->setCellValue('J' . $row, $datum['select_setoran']);
+            $sheet->setCellValue('K' . $row, $datum['nominal_setoran']);
             $imageUrl = base_url('uploads/' . $datum['ss_dashboard']);
-            $sheet->setCellValue('K' . $row, $imageUrl);
-            $sheet->getCell('K' . $row)->getHyperlink()->setUrl($imageUrl);
-            $imageUrl = base_url('uploads/' . $datum['ss_saku_utama']);
             $sheet->setCellValue('L' . $row, $imageUrl);
             $sheet->getCell('L' . $row)->getHyperlink()->setUrl($imageUrl);
-            $sheet->setCellValue('M' . $row, $datum['spv']);
-            $sheet->setCellValue('N' . $row, $datum['koor']);
-            $sheet->setCellValue('O' . $row, $datum['asm']);
+            $imageUrl = base_url('uploads/' . $datum['ss_saku_utama']);
+            $sheet->setCellValue('M' . $row, $imageUrl);
+            $sheet->getCell('M' . $row)->getHyperlink()->setUrl($imageUrl);
+            $sheet->setCellValue('N' . $row, $datum['spv']);
+            $sheet->setCellValue('O' . $row, $datum['koor']);
+            $sheet->setCellValue('P' . $row, $datum['asm']);
             $row++;
         }
 

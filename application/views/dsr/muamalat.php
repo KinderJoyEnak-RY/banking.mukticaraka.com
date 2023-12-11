@@ -4,29 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSR Dashboard</title>
+    <title>Bank Muamalat</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Theme style -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
     <style>
+        h1 {
+            font-size: 1.5em;
+        }
+
+        table th,
+        table td {
+            font-size: 0.8em;
+        }
+
         .nav .nav-treeview .nav-icon.sub-menu-icon {
             font-size: 0.6em !important;
         }
 
-        .small-box .inner {
-            height: 150px;
-            /* Anda dapat menyesuaikan tinggi ini sesuai kebutuhan */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            /* Ini akan memusatkan konten secara vertikal */
+        .btn-primary {
+            background-color: #4e73df;
+            /* Warna biru */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .info-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, .3);
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            /* Warna biru yang lebih gelap */
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .btn-primary {
+                width: 100%;
+                /* Button lebar penuh pada layar kecil */
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -90,7 +109,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?php echo site_url('dsr/dashboard'); ?>" class="nav-link active">
+                            <a href="<?php echo site_url('dsr/dashboard'); ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -98,7 +117,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-university"></i>
                                 <p>
                                     Banking Products
@@ -149,7 +168,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo site_url('dsr/muamalat'); ?>" class="nav-link">
+                                    <a href="<?php echo site_url('dsr/muamalat'); ?>" class="nav-link active">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>Bank Muamalat</p>
                                     </a>
@@ -163,49 +182,124 @@
             <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>DSR Dashboard</h1>
+                            <h1>Bank Muamalat</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="<?php echo site_url('dsr/dashboard'); ?>">Home</a></li>
-                                <li class="breadcrumb-item active">DSR Dashboard</li>
+                                <li class="breadcrumb-item active">Bank Muamalat</li>
                             </ol>
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
 
-            <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                    <!-- Info Boxes -->
                     <div class="row">
-                        <?php foreach ($bankData as $bankName => $bankDetails) : ?>
-                            <div class="col-lg-4 col-6 col-sm-12">
-                                <!-- Info box -->
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-primary"><i class="fas fa-university"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text"><?php echo $bankName; ?></span>
-                                        <span class="info-box-number"><?php echo $bankDetails['total']; ?></span>
-                                        <a href="<?php echo site_url('dsr/' . strtolower($bankName)); ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
+                        <div class="col-12">
+                            <a href="<?php echo site_url('dsr/tambah_muamalat'); ?>" class="btn btn-primary mb-3">Add Muamalat Data</a>
+                            <div id="notification" class="alert" style="display:none;">
+                                <span id="notification-message"></span>
                             </div>
-                        <?php endforeach; ?>
+                            <?php if ($this->session->flashdata('error')) : ?>
+                                <div class="alert alert-danger">
+                                    <?= $this->session->flashdata('error'); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($this->session->flashdata('success')) : ?>
+                                <div class="alert alert-success">
+                                    <?= $this->session->flashdata('success'); ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="muamalatTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Tanggal</th>
+                                            <th class="text-center">Mitra Code</th>
+                                            <th class="text-center">DSR</th>
+                                            <th class="text-center">Area Akuisisi</th>
+                                            <th class="text-center">Nama Nasabah</th>
+                                            <th class="text-center">No Rek Nasabah</th>
+                                            <th class="text-center">No HP Nasabah</th>
+                                            <th class="text-center">SS Dashboard</th>
+                                            <th class="text-center">SS Transaksi</th>
+                                            <th class="text-center">SPV</th>
+                                            <th class="text-center">KOOR</th>
+                                            <th class="text-center">ASM</th>
+                                            <th class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $no = 1;
+                                        if (!empty($muamalat_forms)) { // Cek apakah $muamalat_forms tidak kosong
+                                            foreach ($muamalat_forms as $form) :
+                                        ?>
+                                                <tr>
+                                                    <td><?php echo $no++; ?></td>
+                                                    <td><?php echo $form['tanggal']; ?></td>
+                                                    <td><?php echo $form['dsr_code']; ?></td>
+                                                    <td><?php echo $form['dsr_name']; ?></td>
+                                                    <td><?php echo $form['area_akuisisi']; ?></td>
+                                                    <td><?php echo $form['nama_nasabah']; ?></td>
+                                                    <td><?php echo $form['no_rek_nasabah']; ?></td>
+                                                    <td><?php echo $form['no_hp_aktif_nasabah']; ?></td>
+                                                    <td>
+                                                        <img src="<?php echo base_url('uploads/' . $form['ss_dashboard']); ?>" width="40" alt="SS Dashboard" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/' . $form['ss_dashboard']); ?>">
+                                                    </td>
+                                                    <td>
+                                                        <img src="<?php echo base_url('uploads/' . $form['ss_transaksi']); ?>" width="40" alt="SS Transaksi" class="img-thumbnail" data-toggle="modal" data-target="#imageModal" data-image="<?php echo base_url('uploads/' . $form['ss_transaksi']); ?>">
+                                                    </td>
+                                                    <td><?php echo $form['spv']; ?></td>
+                                                    <td><?php echo $form['koor']; ?></td>
+                                                    <td><?php echo $form['asm']; ?></td>
+                                                    <td>
+                                                        <a href="<?php echo site_url('dsr/delete_muamalat/' . $form['id']); ?>" class="btn btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                                            <i class="fas fa-trash-alt text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            endforeach;
+                                        } else {
+                                            echo "<tr><td colspan='15' class='text-center'>Tidak ada data untuk ditampilkan</td></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">View Image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modalImage" src="" alt="Full-size Image" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Footer -->
         <footer class="main-footer">
@@ -223,6 +317,20 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#muamalatTable').DataTable();
+
+            $('#imageModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var imageUrl = button.data('image');
+                var modal = $(this);
+                modal.find('#modalImage').attr('src', imageUrl);
+            });
+        });
+    </script>
 
 </body>
 

@@ -232,6 +232,7 @@
                                                     <th class="text-center">Tanggal</th>
                                                     <th class="text-center">Mitra Code</th>
                                                     <th class="text-center">DSR</th>
+                                                    <th class="text-center">Area Akuisisi</th>
                                                     <th class="text-center">Nama Nasabah</th>
                                                     <th class="text-center">No HP Nasabah</th>
                                                     <th class="text-center">No Rek Nasabah</th>
@@ -256,6 +257,7 @@
                                                             <td><?php echo $form['tanggal']; ?></td>
                                                             <td><?php echo $form['dsr_code']; ?></td>
                                                             <td><?php echo $form['dsr_name']; ?></td>
+                                                            <td><?php echo $form['area_akuisisi']; ?></td>
                                                             <td><?php echo $form['nama_nasabah']; ?></td>
                                                             <td><?php echo $form['no_hp_aktif_nasabah']; ?></td>
                                                             <td><?php echo $form['no_rek_nasabah']; ?></td>

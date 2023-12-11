@@ -8,7 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Form Input Data BJJ Digital</title>
+    <title>Form Input Data Bank Muamalat</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
@@ -163,9 +163,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo site_url('dsr/bjj'); ?>" class="nav-link active">
+                                    <a href="<?php echo site_url('dsr/bjj'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>BJJ DIGITAL</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('dsr/muamalat'); ?>" class="nav-link active">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>Bank Muamalat</p>
                                     </a>
                                 </li>
                             </ul>
@@ -183,12 +189,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>BJJ Digital</h1>
+                            <h1>Bank Muamalat</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item active">Home</a></li>
-                                <li class="breadcrumb-item"><a href="<?php echo site_url('dsr/bjj'); ?>">BJJ Digital</a></li>
+                                <li class="breadcrumb-item"><a href="<?php echo site_url('dsr/muamalat'); ?>">Bank Muamalat</a></li>
                                 <li class="breadcrumb-item active">Input Data</li>
                             </ol>
                         </div>
@@ -202,7 +208,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="col-12">
                             <div class="card" style="height: 100%; padding: 10px;">
                                 <div class="card-header text-center bg-green text-white">
-                                    <strong>Form Input Data BJJ Digital</strong>
+                                    <strong>Form Input Data Bank Muamalat</strong>
                                 </div>
                                 <div class="card-body" style="padding: 10px;">
 
@@ -220,7 +226,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <?php endif; ?>
 
                                     <!-- MANDIRI Form -->
-                                    <?php echo form_open_multipart('dsr/add_bjj', array('id' => 'bjjForm')); ?>
+                                    <?php echo form_open_multipart('dsr/add_muamalat', array('id' => 'muamalatForm')); ?>
                                     <!-- Your form fields go here. For example: -->
                                     <div class="form-group">
                                         <label for="dsr_code">Mitra Code:</label>
@@ -284,57 +290,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="jenis_tabungan">Jenis Tabungan:</label>
-                                        <!-- Input untuk melakukan pencarian pada dropdown -->
-                                        <select class="form-control" name="jenis_tabungan" id="jenis_tabungan" required>
-                                            <option value="" disabled selected>Pilih Jenis Tabungan</option>
-                                            <option value="REGULER">REGULER</option>
-                                            <option value="DEPOSITO">DEPOSITO</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="select_setoran">Setoran Awal:</label>
-                                        <select class="form-control" name="select_setoran" id="select_setoran" required onchange="toggleNominalSetoran(this)">
-                                            <option value="" disabled selected>Pilih Opsi</option>
-                                            <option value="setoran">Setoran</option>
-                                            <option value="non_setoran">Non Setoran</option>
-                                        </select>
-                                        <!-- Elemen untuk teks peringatan -->
-                                        <span id="setoranAlert" style="display: none; color: red;">*Setoran: Silahkan mengisi nominal setoran pada kolom dibawah</span>
-                                    </div>
-                                    <div class="form-group" id="nominal_setoran_div" style="display:none;">
-                                        <label for="nominal_setoran">Nominal Setoran (Rp):</label>
-                                        <input type="text" class="form-control" name="nominal_setoran" id="nominal_setoran">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="nama_nasabah">Nama Nasabah:</label>
                                         <input type="text" class="form-control" name="nama_nasabah" id="nama_nasabah" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="no_hp_aktif_nasabah">No HP Nasabah:</label>
-                                        <input type="text" class="form-control" name="no_hp_aktif_nasabah" id="no_hp_aktif_nasabah" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="no_rek_nasabah">No Rekening Nasabah:</label>
                                         <input type="text" class="form-control" name="no_rek_nasabah" id="no_rek_nasabah" required>
                                     </div>
                                     <div class="form-group">
+                                        <label for="no_hp_aktif_nasabah">No HP Nasabah:</label>
+                                        <input type="text" class="form-control" name="no_hp_aktif_nasabah" id="no_hp_aktif_nasabah" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="ss_dashboard">SS Dashboard:</label>
                                         <input type="file" class="form-control" name="ss_dashboard" id="ss_dashboard" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="ss_saku_utama">SS Saku Utama:</label>
-                                        <input type="file" class="form-control" name="ss_saku_utama" id="ss_saku_utama" required>
+                                        <label for="ss_transaksi">SS Transaksi:</label>
+                                        <input type="file" class="form-control" name="ss_transaksi" id="ss_transaksi" required>
                                         <!-- Menampilkan gambar contoh di bawah input file -->
                                         <div class="mt-2">
                                             <p>Gambar Contoh:</p>
-                                            <img src="<?php echo base_url('uploads/img/contoh3.jpeg'); ?>" alt="Contoh 1" style="width:100px; height:auto;">
-                                            <img src="<?php echo base_url('uploads/img/contoh2.jpeg'); ?>" alt="Contoh 2" style="width:100px; height:auto;">
+                                            <img src="<?php echo base_url('uploads/img/contoh4.jpeg'); ?>" alt="Contoh 1" style="width:100px; height:auto;">
                                         </div>
                                     </div>
                                     <div class="form-group mt-4 d-flex justify-content-between">
                                         <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-                                        <button type="submit" class="btn btn-primary">Add BJJ Data</button>
+                                        <button type="submit" class="btn btn-primary">Add Muamalat Data</button>
                                     </div>
                                     <?php echo form_close(); ?>
                                 </div>
@@ -362,47 +344,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/js/adminlte.min.js"></script>
 
-    <script>
-        function toggleNominalSetoran(select) {
-            var value = select.value;
-            var div = document.getElementById('nominal_setoran_div');
-            var alert = document.getElementById('setoranAlert');
-
-            if (value == 'setoran') {
-                div.style.display = 'block';
-                alert.style.display = 'block'; // Tampilkan teks peringatan
-            } else {
-                div.style.display = 'none';
-                alert.style.display = 'none'; // Sembunyikan teks peringatan
-            }
-        }
-    </script>
-    <script>
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-            if (ribuan) {
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        }
-
-        function inputFormatRupiah() {
-            var nominalInput = document.getElementById('nominal_setoran');
-            nominalInput.addEventListener('keyup', function(e) {
-                nominalInput.value = formatRupiah(this.value, 'Rp. ');
-            });
-        }
-
-        inputFormatRupiah();
-    </script>
     <script>
         // Fungsi untuk melakukan pencarian pada dropdown
         function filterDropdown() {

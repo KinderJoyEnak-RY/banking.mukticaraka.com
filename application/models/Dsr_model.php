@@ -469,6 +469,7 @@ class Dsr_model extends CI_Model
             'code' => $code,
             'dsr_code' => $user['code'],
             'dsr_name' => $user['name'],
+            'area_akuisisi' => $this->input->post('area_akuisisi'),
             'nama_nasabah' => $this->input->post('nama_nasabah'),
             'no_hp_aktif_nasabah' => $this->input->post('no_hp_aktif_nasabah'),
             'no_rek_nasabah' => $this->input->post('no_rek_nasabah'),
@@ -499,5 +500,66 @@ class Dsr_model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->delete('bjj_forms');
+    }
+
+    // Bank Muamalat
+    public function get_all_muamalat_forms($code)
+    {
+        $this->db->select('muamalat_forms.*, users.code, users.name as nama_dsr');
+        $this->db->from('muamalat_forms');
+        $this->db->join('users', 'muamalat_forms.code = users.code', 'left');
+        $this->db->where('muamalat_forms.code', $code);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function is_data_existttttttt($data)
+    {
+        $this->db->group_start();
+        $this->db->where('no_hp_aktif_nasabah', $data['no_hp_aktif_nasabah']);
+        $this->db->or_where('no_rek_nasabah', $data['no_rek_nasabah']);
+        $this->db->group_end();
+
+        $query = $this->db->get('muamalat_forms');
+        return $query->num_rows() > 0;
+    }
+    public function add_muamalat($code, $fileName, $supervisors)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $user = $this->get_user_details($code);
+        $data = array(
+            'tanggal' => date('Y-m-d H:i:s'),
+            'code' => $code,
+            'dsr_code' => $user['code'],
+            'dsr_name' => $user['name'],
+            'area_akuisisi' => $this->input->post('area_akuisisi'),
+            'nama_nasabah' => $this->input->post('nama_nasabah'),
+            'no_rek_nasabah' => $this->input->post('no_rek_nasabah'),
+            'no_hp_aktif_nasabah' => $this->input->post('no_hp_aktif_nasabah'),
+            'ss_dashboard' => $fileName['ss_dashboard'],
+            'ss_transaksi' => $fileName['ss_transaksi'],
+            'spv' => $supervisors['spv'],
+            'koor' => $supervisors['koor'],
+            'asm' => $supervisors['asm']
+        );
+
+        // Cek apakah data sudah ada
+        if ($this->is_data_existttttttt($data)) {
+            return array('status' => 'error', 'message' => 'Data dengan informasi yang sama sudah ada.');
+        }
+
+        if (!$this->db->insert('muamalat_forms', $data)) {
+            log_message('error', 'Error inserting data: ' . print_r($this->db->error(), true));
+            return array('status' => 'error', 'message' => 'Gagal menambahkan data ke database.');
+        }
+
+        log_message('info', 'Data inserted successfully: ' . print_r($data, true));
+        return array('status' => 'success', 'message' => 'Data berhasil ditambahkan.');
+    }
+    public function delete_muamalat($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('muamalat_forms');
     }
 }
