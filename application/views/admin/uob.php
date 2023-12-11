@@ -147,6 +147,12 @@
                                         <p>BJJ DIGITAL</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo site_url('admin/muamalat'); ?>" class="nav-link">
+                                        <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
+                                        <p>Bank Muamalat</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">

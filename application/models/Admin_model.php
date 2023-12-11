@@ -120,4 +120,20 @@ class Admin_model extends CI_Model
         $query = $this->db->get('bjj_forms');
         return $query->result_array();
     }
+
+    // Bank Muamalat
+    public function get_all_data_muamalat()
+    {
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('muamalat_forms');
+        return $query->result_array();
+    }
+    public function get_filtered_data_muamalat($start_date, $end_date)
+    {
+        $this->db->where('tanggal >=', $start_date);
+        $this->db->where('tanggal <=', $end_date);
+        $this->db->order_by('tanggal', 'DESC');
+        $query = $this->db->get('muamalat_forms');
+        return $query->result_array();
+    }
 }

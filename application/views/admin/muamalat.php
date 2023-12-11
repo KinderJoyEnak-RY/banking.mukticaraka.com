@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LINE BANK</title>
+    <title>Bank Muamalat</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -124,7 +124,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo site_url('admin/line'); ?>" class="nav-link active">
+                                    <a href="<?php echo site_url('admin/line'); ?>" class="nav-link">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>LINE BANK</p>
                                     </a>
@@ -148,7 +148,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo site_url('admin/muamalat'); ?>" class="nav-link">
+                                    <a href="<?php echo site_url('admin/muamalat'); ?>" class="nav-link active">
                                         <i class="nav-icon fas fa-credit-card sub-menu-icon"></i>
                                         <p>Bank Muamalat</p>
                                     </a>
@@ -181,12 +181,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>LINE BANK</h1>
+                            <h1>Bank Muamalat</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="<?php echo site_url('admin/dashboard'); ?>">Home</a></li>
-                                <li class="breadcrumb-item active">LINE BANK</li>
+                                <li class="breadcrumb-item active">Bank Muamalat</li>
                             </ol>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                                     <div class="row">
                                         <!-- Form Filter -->
                                         <div class="col-lg-8">
-                                            <form action="<?php echo site_url('admin/line_filtered'); ?>" method="post" class="row align-items-end">
+                                            <form action="<?php echo site_url('admin/muamalat_filtered'); ?>" method="post" class="row align-items-end">
                                                 <div class="col-md-4 mb-3 mb-md-0">
                                                     <label for="start_date" class="mb-0">Dari Tanggal:</label>
                                                     <input type="date" name="start_date" id="start_date" required class="form-control">
@@ -220,7 +220,7 @@
 
                                         <!-- Tombol Ekspor Data -->
                                         <div class="col-lg-4 text-lg-right text-center mt-3 mt-lg-0">
-                                            <a href="<?= site_url('admin/export_line'); ?>" class="btn btn-success btn-sm mr-2">
+                                            <a href="<?= site_url('admin/export_muamalat'); ?>" class="btn btn-success btn-sm mr-2">
                                                 <i class="fas fa-download"></i> Ekspor Semua Data
                                             </a>
                                             <button onclick="exportFilteredData()" class="btn btn-info btn-sm">
@@ -231,20 +231,19 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="dataLINE" class="table table-bordered table-hover table-striped small-table-font">
+                                        <table id="dataMUAMALAT" class="table table-bordered table-hover table-striped small-table-font">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center">No</th>
                                                     <th class="text-center">Tanggal</th>
                                                     <th class="text-center">Mitra Code</th>
                                                     <th class="text-center">DSR</th>
-                                                    <th class="text-center">Souvenir</th>
+                                                    <th class="text-center">Area Akuisisi</th>
                                                     <th class="text-center">Nama Nasabah</th>
-                                                    <th class="text-center">No HP Nasabah</th>
                                                     <th class="text-center">No Rek Nasabah</th>
-                                                    <th class="text-center">Kota Akuisisi</th>
+                                                    <th class="text-center">No HP Nasabah</th>
                                                     <th class="text-center">SS Dashboard</th>
-                                                    <th class="text-center">Foto KTP Nasabah</th>
+                                                    <th class="text-center">SS Transaksi</th>
                                                     <th class="text-center">SPV</th>
                                                     <th class="text-center">KOOR</th>
                                                     <th class="text-center">ASM</th>
@@ -253,24 +252,23 @@
                                             <tbody>
                                                 <?php
                                                 $no = 1;
-                                                if (!empty($line_forms)) { // Cek apakah $uob_forms tidak kosong
-                                                    foreach ($line_forms as $form) :
+                                                if (!empty($muamalat_forms)) { // Cek apakah $muamalat_forms tidak kosong
+                                                    foreach ($muamalat_forms as $form) :
                                                 ?>
                                                         <tr>
                                                             <td><?php echo $no++; ?></td>
                                                             <td><?php echo $form['tanggal']; ?></td>
                                                             <td><?php echo $form['dsr_code']; ?></td>
                                                             <td><?php echo $form['dsr_name']; ?></td>
-                                                            <td><?php echo $form['jenis_skema']; ?></td>
+                                                            <td><?php echo $form['area_akuisisi']; ?></td>
                                                             <td><?php echo $form['nama_nasabah']; ?></td>
-                                                            <td><?php echo $form['no_hp_nasabah']; ?></td>
-                                                            <td><?php echo $form['no_rek_line_nasabah']; ?></td>
-                                                            <td><?php echo $form['kabupaten'] . ", " . $form['provinsi']; ?></td>
+                                                            <td><?php echo $form['no_rek_nasabah']; ?></td>
+                                                            <td><?php echo $form['no_hp_aktif_nasabah']; ?></td>
                                                             <td>
-                                                                <a href="<?php echo base_url('uploads/' . $form['ss_detail_dashboard']); ?>" target="_blank">Lihat dashboard</a>
+                                                                <a href="<?php echo base_url('uploads/' . $form['ss_dashboard']); ?>" target="_blank">Lihat SS Dashboard</a>
                                                             </td>
                                                             <td>
-                                                                <a href="<?php echo base_url('uploads/' . $form['foto_ktp_nasabah']); ?>" target="_blank">Lihat Foto KTP</a>
+                                                                <a href="<?php echo base_url('uploads/' . $form['ss_transaksi']); ?>" target="_blank">Lihat SS Transaksi</a>
                                                             </td>
                                                             <td><?php echo $form['spv']; ?></td>
                                                             <td><?php echo $form['koor']; ?></td>
@@ -298,7 +296,7 @@
         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
-                    <div class="modal-body">
+                    <div class="modal-body text-center">
                         <img src="" id="modalImage" class="img-fluid" alt="Octo Dashboard">
                     </div>
                 </div>
@@ -332,7 +330,7 @@
         });
 
         $(document).ready(function() {
-            $('#dataLINE').DataTable({
+            $('#dataMUAMALAT').DataTable({
                 "pageLength": 10, // Jumlah data per halaman
                 "lengthChange": false, // Matikan fitur untuk mengubah jumlah data per halaman
                 "language": {
@@ -353,7 +351,7 @@
             if (startDate && endDate) {
                 var form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '<?php echo site_url('admin/export_line_filtered'); ?>';
+                form.action = '<?php echo site_url('admin/export_muamalat_filtered'); ?>';
 
                 var inputStartDate = document.createElement('input');
                 inputStartDate.type = 'hidden';
@@ -374,7 +372,6 @@
             }
         }
     </script>
-
 
 </body>
 

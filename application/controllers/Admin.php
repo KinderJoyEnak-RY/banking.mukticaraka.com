@@ -32,7 +32,8 @@ class Admin extends CI_Controller
             'UOB' => ['total' => $this->Admin_model->get_total_data('uob_forms')],
             'BSI' => ['total' => $this->Admin_model->get_total_data('bsi_forms')],
             'MANDIRI' => ['total' => $this->Admin_model->get_total_data('mandiri_forms')],
-            'BJJ' => ['total' => $this->Admin_model->get_total_data('bjj_forms')]
+            'BJJ' => ['total' => $this->Admin_model->get_total_data('bjj_forms')],
+            'MUAMALAT' => ['total' => $this->Admin_model->get_total_data('muamalat_forms')]
             // Add other banks similarly
         ];
 
@@ -1016,6 +1017,125 @@ class Admin extends CI_Controller
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $filename = 'data_bjj_filtered_export' . '.xlsx';
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+    }
+
+    // Bank Muamalat
+    public function muamalat()
+    {
+        $data['muamalat_forms'] = $this->Admin_model->get_all_data_muamalat();
+        $this->load->view('admin/muamalat', $data);
+    }
+    public function muamalat_filtered()
+    {
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+        $data['muamalat_forms'] = $this->Admin_model->get_filtered_data_muamalat($start_date, $end_date);
+        $this->load->view('admin/muamalat', $data);
+    }
+    public function export_muamalat()
+    {
+        $data = $this->Admin_model->get_all_data_muamalat();
+        // $this->load->library('spreadsheet');
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set header tabel
+        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Area Akuisisi", "Nama Nasabah", "No Rek Nasabah", "No HP Nasabah", "SS Dashboard", "SS Transaksi", "SPV", "KOOR", "ASM"];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $col++;
+        }
+
+        // Isi data ke tabel
+        $row = 2;
+        foreach ($data as $datum) {
+            $sheet->setCellValue('A' . $row, $row - 1);
+            $sheet->setCellValue('B' . $row, $datum['tanggal']);
+            $sheet->setCellValue('C' . $row, $datum['dsr_code']);
+            $sheet->setCellValue('D' . $row, $datum['dsr_name']);
+            $sheet->setCellValue('E' . $row, $datum['area_akuisisi']);
+            $sheet->setCellValue('F' . $row, $datum['nama_nasabah']);
+            $sheet->setCellValue('G' . $row, $datum['no_rek_nasabah']);
+            $sheet->setCellValue('H' . $row, $datum['no_hp_aktif_nasabah']);
+            $imageUrl = base_url('uploads/' . $datum['ss_dashboard']);
+            $sheet->setCellValue('I' . $row, $imageUrl);
+            $sheet->getCell('I' . $row)->getHyperlink()->setUrl($imageUrl);
+            $imageUrl = base_url('uploads/' . $datum['ss_transaksi']);
+            $sheet->setCellValue('J' . $row, $imageUrl);
+            $sheet->getCell('J' . $row)->getHyperlink()->setUrl($imageUrl);
+            $sheet->setCellValue('K' . $row, $datum['spv']);
+            $sheet->setCellValue('L' . $row, $datum['koor']);
+            $sheet->setCellValue('M' . $row, $datum['asm']);
+            $row++;
+        }
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $filename = 'data_muamalat_export_All' . '.xlsx';
+
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+    }
+    public function export_muamalat_filtered()
+    {
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+
+        if (empty($start_date) || empty($end_date)) {
+            // Handle error, misalnya dengan mengatur flashdata dan redirect ke halaman sebelumnya
+            $this->session->set_flashdata('error', 'Tanggal awal dan akhir harus diisi.');
+            redirect('admin/muamalat');
+            return;
+        }
+
+        $data = $this->Admin_model->get_filtered_data_muamalat($start_date, $end_date);
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set header tabel
+        $headers = ["No", "Tanggal", "Mitra Code", "Nama DSR", "Area Akuisisi", "Nama Nasabah", "No Rek Nasabah", "No HP Nasabah", "SS Dashboard", "SS Transaksi", "SPV", "KOOR", "ASM"];
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $col++;
+        }
+
+        // Isi data ke tabel
+        $row = 2;
+        foreach ($data as $datum) {
+            $sheet->setCellValue('A' . $row, $row - 1);
+            $sheet->setCellValue('B' . $row, $datum['tanggal']);
+            $sheet->setCellValue('C' . $row, $datum['dsr_code']);
+            $sheet->setCellValue('D' . $row, $datum['dsr_name']);
+            $sheet->setCellValue('E' . $row, $datum['area_akuisisi']);
+            $sheet->setCellValue('F' . $row, $datum['nama_nasabah']);
+            $sheet->setCellValue('G' . $row, $datum['no_rek_nasabah']);
+            $sheet->setCellValue('H' . $row, $datum['no_hp_aktif_nasabah']);
+            $imageUrl = base_url('uploads/' . $datum['ss_dashboard']);
+            $sheet->setCellValue('I' . $row, $imageUrl);
+            $sheet->getCell('I' . $row)->getHyperlink()->setUrl($imageUrl);
+            $imageUrl = base_url('uploads/' . $datum['ss_transaksi']);
+            $sheet->setCellValue('J' . $row, $imageUrl);
+            $sheet->getCell('J' . $row)->getHyperlink()->setUrl($imageUrl);
+            $sheet->setCellValue('K' . $row, $datum['spv']);
+            $sheet->setCellValue('L' . $row, $datum['koor']);
+            $sheet->setCellValue('M' . $row, $datum['asm']);
+            $row++;
+        }
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $filename = 'data_muamalat_filtered_export' . '.xlsx';
 
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
