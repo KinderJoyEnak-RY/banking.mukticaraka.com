@@ -5,101 +5,242 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Login Page</title>
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css">
+
 	<style>
 		body {
-			overflow: hidden;
-			display: flex;
-			flex-direction: column;
-			min-height: 100vh;
+			color: #000;
+			overflow-x: hidden;
+			height: 100%;
+			background-image: linear-gradient(to right, #D500F9, #FFD54F);
+			background-repeat: no-repeat;
 		}
 
-		.login-section {
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			background: linear-gradient(135deg, #4facfe, #00f2fe);
-
-			animation: fadeIn 1s ease-in-out;
+		input,
+		textarea {
+			background-color: #F3E5F5;
+			border-radius: 50px !important;
+			padding: 12px 15px 12px 15px !important;
+			width: 100%;
+			box-sizing: border-box;
+			border: none !important;
+			border: 1px solid #F3E5F5 !important;
+			font-size: 16px !important;
+			color: #000 !important;
+			font-weight: 400;
 		}
 
-		footer {
-			text-align: center;
-			padding: 10px 0;
-			background: #FFF;
+		input:focus,
+		textarea:focus {
+			-moz-box-shadow: none !important;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+			border: 1px solid #D500F9 !important;
+			outline-width: 0;
+			font-weight: 400;
 		}
 
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
+		button:focus {
+			-moz-box-shadow: none !important;
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+			outline-width: 0;
+		}
+
+		.card {
+			border-radius: 0;
+			border: none;
+		}
+
+		.card1 {
+			width: 50%;
+			padding: 40px 30px 10px 30px;
+		}
+
+		.card2 {
+			width: 50%;
+			background-image: linear-gradient(to right, #FFD54F, #D500F9);
+		}
+
+		#logo {
+			width: 70px;
+			height: 60px;
+		}
+
+		.heading {
+			margin-bottom: 60px !important;
+		}
+
+		::placeholder {
+			color: #000 !important;
+			opacity: 1;
+		}
+
+		:-ms-input-placeholder {
+			color: #000 !important;
+		}
+
+		::-ms-input-placeholder {
+			color: #000 !important;
+		}
+
+		.form-control-label {
+			font-size: 12px;
+			margin-left: 15px;
+		}
+
+		.msg-info {
+			padding-left: 15px;
+			margin-bottom: 30px;
+		}
+
+		.btn-color {
+			border-radius: 50px;
+			color: #fff;
+			background-image: linear-gradient(to right, #FFD54F, #D500F9);
+			padding: 15px;
+			cursor: pointer;
+			border: none !important;
+			margin-top: 40px;
+		}
+
+		.btn-color:hover {
+			color: #fff;
+			background-image: linear-gradient(to right, #D500F9, #FFD54F);
+		}
+
+		.btn-white {
+			border-radius: 50px;
+			color: #D500F9;
+			background-color: #fff;
+			padding: 8px 40px;
+			cursor: pointer;
+			border: 2px solid #D500F9 !important;
+		}
+
+		.btn-white:hover {
+			color: #fff;
+			background-image: linear-gradient(to right, #FFD54F, #D500F9);
+		}
+
+		a {
+			color: #000;
+		}
+
+		a:hover {
+			color: #000;
+		}
+
+		.bottom {
+			width: 100%;
+			margin-top: 50px !important;
+		}
+
+		.sm-text {
+			font-size: 15px;
+		}
+
+		@media screen and (max-width: 992px) {
+			.card1 {
+				width: 100%;
+				padding: 40px 30px 10px 30px;
 			}
 
-			to {
-				opacity: 1;
+			.card2 {
+				width: 100%;
+			}
+
+			.right {
+				margin-top: 100px !important;
+				margin-bottom: 100px !important;
 			}
 		}
 
-		.btn:hover {
-			background-color: #ff8c42;
-			transition: background-color 0.3s ease-in-out;
+		@media screen and (max-width: 768px) {
+			.container {
+				padding: 10px !important;
+			}
+
+			.card2 {
+				padding: 50px;
+			}
+
+			.right {
+				margin-top: 50px !important;
+				margin-bottom: 50px !important;
+			}
 		}
 
-		@media (min-width: 768px) {
-			.login-section {
-				flex-direction: row;
-			}
+		.heading {
+			font-weight: bold;
+			font-size: 26px;
+			background: -webkit-linear-gradient(to right, #FFD54F, #D500F9);
+			/* Chrome, Safari, Opera */
+			background: linear-gradient(to right, #FFD54F, #D500F9);
+			/* Standard syntax */
+			-webkit-background-clip: text;
+			background-clip: text;
+			color: transparent;
+			/* Membuat teks transparan untuk menampilkan gradasi */
 		}
 	</style>
 </head>
 
 <body>
-	<section class="login-section">
-		<div class="container-fluid">
-			<div class="row h-100">
-				<div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center text-black form-container">
-					<img src="<?= base_url('uploads/img/logooo.png'); ?>" alt="Logo" class="mb-5" style="width: 300px;">
-					<?php if ($this->session->flashdata('error')) : ?>
-						<div class="alert alert-danger" role="alert">
-							<?php echo $this->session->flashdata('error'); ?>
-						</div>
-					<?php endif; ?>
-
-					<form action="<?php echo site_url('user/login'); ?>" method="post" style="width: 100%; max-width: 23rem;">
-						<h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
-						<div class="form-outline mb-4">
-							<label class="form-label" for="code">Mitracode</label>
-							<input type="text" id="code" name="code" class="form-control form-control-lg" required />
-						</div>
-						<div class="form-outline mb-4">
-							<label class="form-label" for="password">Password</label>
-							<input type="password" id="password" name="password" class="form-control form-control-lg" required />
-							<div class="mt-2">
-								<i class="fas fa-info-circle text-primary"></i>
-								<small class="text-muted">Password Anda berisi <strong class="text-dark">8 digit</strong>: Tanggal, Bulan, Tahun lahir Anda. <span class="text-warning">Contoh: 23052000</span></small>
+	<div class="container px-4 py-5 mx-auto">
+		<div class="card card0">
+			<div class="d-flex flex-lg-row flex-column-reverse">
+				<div class="card card1">
+					<div class="row justify-content-center my-auto">
+						<div class="col-md-8 col-10 my-5">
+							<div class="row justify-content-center px-3 mb-4">
+								<img src="<?= base_url('uploads/img/logooo.png'); ?>" alt="Logo" class="mb-4" style="width: 284px;">
+								<h3 class="mb-3 text-center heading">Reliable Business Partner</h3>
 							</div>
-						</div>
-						<div class="pt-1 mb-4 d-flex justify-content-end">
-							<button type="submit" class="btn btn-warning btn-lg">Masuk</button>
-						</div>
-					</form>
 
+							<?php if ($this->session->flashdata('error')) : ?>
+								<div class="alert alert-danger" role="alert">
+									<?php echo $this->session->flashdata('error'); ?>
+								</div>
+							<?php endif; ?>
+							<form action="<?php echo site_url('user/login'); ?>" method="post">
+								<h6 class="msg-info">Please login to your account</h6>
+								<div class="form-group">
+									<label class="form-control-label text-muted">Mitracode</label>
+									<input type="text" id="code" name="code" placeholder="Mitracode" class="form-control">
+								</div>
+
+								<div class="form-group">
+									<label class="form-control-label text-muted">Password</label>
+									<input type="password" id="password" name="password" placeholder="Password" class="form-control">
+									<div class="mt-2">
+										<i class="fa fa-info-circle text-primary"></i>
+										<small class="text-muted">Password Anda berisi <strong class="text-dark">8 digit</strong>: Tanggal, Bulan, Tahun lahir Anda. <span class="text-warning">Contoh: 23052000</span></small>
+									</div>
+								</div>
+
+								<div class="row justify-content-center my-3 px-3 mb-5">
+									<button class="btn-block btn-color">Login to Session</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-12 col-md-6 px-0 d-none d-md-block">
-					<img src="<?= base_url('uploads/img/com3.jpg'); ?>" alt="Login image" class="w-100 h-100" style="object-fit: cover; object-position: left;">
+				<div class="card card2">
+					<div class="my-auto mx-md-5 px-md-5 right">
+						<h3 class="text-white">We are more than just a company</h3>
+						<small class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</small>
+					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-
-	<footer>
-		Copyright © 2023 All rights reserved.
-	</footer>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 
 </html>

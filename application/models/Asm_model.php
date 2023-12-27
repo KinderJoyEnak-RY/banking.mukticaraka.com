@@ -71,4 +71,22 @@ class Asm_model extends CI_Model
         $query = $this->db->get('bjj_forms');
         return $query->result_array();
     }
+
+    public function get_filtered_data($start_date, $end_date)
+    {
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj', 'muamalat']; // Daftar bank
+        $filtered_data = [];
+
+        foreach ($banks as $bank) {
+            $table_name = $bank . '_forms';
+            $this->db->select('*');
+            $this->db->from($table_name);
+            $this->db->where('tanggal >=', $start_date);
+            $this->db->where('tanggal <=', $end_date);
+            $query = $this->db->get();
+            $filtered_data[$bank] = $query->result_array();
+        }
+
+        return $filtered_data;
+    }
 }

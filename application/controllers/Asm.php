@@ -116,4 +116,42 @@ class Asm extends CI_Controller
 
         return $summaries;
     }
+
+    public function report()
+    {
+        $data['bankSummaries'] = $this->get_bank_summaries();
+        // Muat semua data
+        $data['all_data'] = $this->getAsmModelAllData();
+        $this->load->view('asm/report', $data);
+    }
+
+    private function getAsmModelAllData()
+    {
+        // Implementasikan logika untuk mengambil semua data dari setiap bank
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj'];
+        $all_data = [];
+        foreach ($banks as $bank) {
+            $all_data[$bank] = $this->Asm_model->get_all_data_cimb(); // Misalnya, untuk 'cimb' panggil get_all_data_cimb
+            $all_data[$bank] = $this->Asm_model->get_all_data_bsi();
+            $all_data[$bank] = $this->Asm_model->get_all_data_uob();
+            $all_data[$bank] = $this->Asm_model->get_all_data_line();
+            $all_data[$bank] = $this->Asm_model->get_all_data_bpd();
+            $all_data[$bank] = $this->Asm_model->get_all_data_mandiri();
+            $all_data[$bank] = $this->Asm_model->get_all_data_bjj();
+        }
+        return $all_data;
+    }
+
+
+    public function filter_report()
+    {
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['filtered_data'] = $this->Asm_model->get_filtered_data($start_date, $end_date);
+
+        $this->load->view('asm/report', $data);
+    }
 }

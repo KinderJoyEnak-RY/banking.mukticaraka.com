@@ -99,4 +99,43 @@ class Spv extends CI_Controller
         // Load view untuk menampilkan data dalam modal
         $this->load->view('spv/details_modal_content', ['data' => $data]);
     }
+
+    public function data_filter()
+    {
+        $spvCode = $this->session->userdata('code');
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj'];
+
+        $totals = [];
+        foreach ($banks as $bank) {
+            $tableName = $bank . '_forms';
+            $totals[$bank] = $this->Spv_model->get_total_data_by_spv($spvCode, $tableName);
+        }
+
+        $this->load->view('spv/data_filter', ['totals' => $totals]);
+    }
+
+    public function filterData()
+    {
+        $startDate = $this->input->post('start_date');
+        $endDate = $this->input->post('end_date');
+        $spvCode = $this->session->userdata('code');
+
+        $banks = ['cimb', 'bsi', 'uob', 'line', 'bpd', 'mandiri', 'bjj'];
+        $totals = []; // Untuk menyimpan total data sebelum filter
+        $filtered_totals = []; // Inisialisasi dengan array kosong
+
+        foreach ($banks as $bank) {
+            $table_name = $bank . '_forms';
+            $totals[$bank] = $this->Spv_model->get_total_data_by_spv($spvCode, $table_name);
+            $filtered_data = $this->Spv_model->get_data_by_date_range($table_name, $spvCode, $startDate, $endDate);
+            $filtered_totals[$bank] = count($filtered_data); // Jumlah data yang difilter untuk setiap bank
+        }
+
+        $data = [
+            'totals' => $totals,
+            'filtered_totals' => $filtered_totals // Ini akan selalu didefinisikan
+        ];
+
+        $this->load->view('spv/filtered_data', ['filtered_totals' => $filtered_totals]);
+    }
 }

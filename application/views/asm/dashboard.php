@@ -106,17 +106,19 @@
                         <li class="nav-item">
                             <a href="<?php echo site_url('asm/dashboard'); ?>" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                </p>
+                                <p>Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="<?php echo site_url('asm/hierarchy'); ?>" class="nav-link">
                                 <i class="nav-icon fas fa-file-alt"></i>
-                                <p>
-                                    Data Laporan
-                                </p>
+                                <p>Data Laporan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo site_url('asm/report'); ?>" class="nav-link">
+                                <i class="nav-icon fas fa-filter"></i>
+                                <p>Report Filter</p>
                             </a>
                         </li>
                     </ul>

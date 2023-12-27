@@ -257,7 +257,6 @@ if ($type == 'cimb' && $data && isset($data[0]['jenis_skema'])) {
                         <td><?= $row['no_hp_aktif_nasabah'] ?></td>
                         <td><?= $row['no_rek_nasabah'] ?></td>
                         <td><?= $row['jenis_tabungan'] ?></td>
-
                     </tr>
                 <?php endforeach; ?>
             </tbody>

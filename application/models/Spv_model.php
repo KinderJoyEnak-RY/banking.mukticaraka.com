@@ -4,6 +4,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Spv_model extends CI_Model
 {
 
+    public function get_data_by_date_range($table_name, $spvCode, $start_date, $end_date)
+    {
+        // Ambil dsr_code dari semua DSR yang berada di bawah SPV tersebut
+        $this->db->select('code');
+        $this->db->from('users');
+        $this->db->where('parent_code', $spvCode);
+        $subQuery = $this->db->get_compiled_select();
+
+        // Gunakan subQuery untuk filter data berdasarkan dsr_code
+        $this->db->select('*');
+        $this->db->from($table_name);
+        $this->db->where("`dsr_code` IN ($subQuery)", NULL, false);
+
+        // Pengecekan untuk tanggal
+        if ($start_date != null) {
+            $this->db->where('tanggal >=', $start_date);
+        }
+        if ($end_date != null) {
+            $this->db->where('tanggal <=', $end_date);
+        }
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function get_total_data_by_spv($spvCode, $tableName)
     {
         $this->db->select('COUNT(*) as total');
